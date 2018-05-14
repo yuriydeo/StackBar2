@@ -34,7 +34,7 @@
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                    <StackPanel Orientation="Horizontal" MaxHeight="65" HorizontalAlignment="Left"></StackPanel>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>

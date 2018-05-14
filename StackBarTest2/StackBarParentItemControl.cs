@@ -71,17 +71,13 @@ namespace StackBarTest2
             set { SetValue(UnitValueFieldProperty, value); }
         }
 
-        public Binding UnitValueBinding
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(UnitValueField))
-                    throw new Exception("Unit value binding failed: field name is not set");
-                var binding = new Binding("/" + UnitValueField);
-                SetBinding(WidthProperty, binding);
-                return binding;
-            }
+        public static DependencyProperty UnitLabelFielddProperty = DependencyProperty.Register("UnitLabelField",
+            typeof(string), typeof(StackBarParentItemControl));
 
+        public string UnitLabelField
+        {
+            get { return (string)GetValue(UnitLabelFielddProperty); }
+            set { SetValue(UnitLabelFielddProperty, value); }
         }
 
         //public Binding UnitLabelBinding
@@ -90,8 +86,9 @@ namespace StackBarTest2
         //    {
         //        if (String.IsNullOrEmpty(UnitLabelField))
         //            throw new Exception("Unit label binding failed: field name is not set");
-        //        //return new Binding("/" + UnitLabelField);
-        //        return new Binding("Name");
+        //        var binding = new Binding(UnitLabelField);
+                
+        //        return binding;
         //    }
         //}
 

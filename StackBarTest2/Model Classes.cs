@@ -29,11 +29,11 @@ namespace StackBarTest2
 
         //public double TrueArea
         //{
-        //    get { return Rooms.Where(x => x.Type != RoomType.Fake).Sum(x => x.Area); }
+        //    get { return Rooms.Where(x => x.Type != UseType.Fake).Sum(x => x.Area); }
         //}
     }
 
-    public enum RoomType
+    public enum UseType
     {
         Office = 0,
         Vacant = 1,
@@ -43,7 +43,7 @@ namespace StackBarTest2
 
     public class Room
     {
-        public Room(string name, double area, RoomType type)
+        public Room(string name, double area, UseType type)
         {
             Name = name;
             Area = area;
@@ -52,6 +52,6 @@ namespace StackBarTest2
         public string Name { get; }
         public double Area { get; }
 
-        public RoomType Type { get; }
+        public UseType Type { get; }
     }
 }
