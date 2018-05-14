@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <local:StackBarParentItemControl Legend="{Binding LegendDictionary}"
+                                         ItemsSource="{Binding Rooms}"
+                                         UnitValueField="Area">
+<local:StackBarParentItemControl.UnitTemplate>
+    <DataTemplate DataType="{x:Type local:Room}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+    </DataTemplate>
+
+</local:StackBarParentItemControl.UnitTemplate>
+
+        </local:StackBarParentItemControl>
     </Grid>
 </Window>

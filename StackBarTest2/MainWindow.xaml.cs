@@ -23,6 +23,7 @@ namespace StackBarTest2
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ViewModel();
         }
     }
 }

@@ -24,7 +24,21 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                    </Border>
+                        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <local:StackBarChildItemControl ValueFieldName="{Binding UnitValueField, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}"
+                                                                    Content="{Binding}"
+                                                                    ContentTemplate="{Binding UnitTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -37,6 +51,7 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

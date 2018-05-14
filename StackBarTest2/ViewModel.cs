@@ -19,7 +19,7 @@ namespace StackBarTest2
         private void PopulateData()
         {
             _floors = new ObservableCollection<Floor>();
-            for (int i = 4; i > 0; i--)
+            for (int i = 1; i < 5; i++)
             {
                 Floor floor = new Floor($"floor{i}");
                 for (int j = 1; j < 8 - i; j++)
@@ -41,5 +41,10 @@ namespace StackBarTest2
 
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors { get { return _floors; } }
+
+        public ObservableCollection<Room> Rooms
+        {
+            get { return _floors[0].Rooms; }
+        }
     }
 }

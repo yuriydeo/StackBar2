@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,19 +45,63 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarParentItemControl/>
     ///
     /// </summary>
-    public class StackBarParentItemControl : Control
+    public class StackBarParentItemControl : ItemsControl
     {
         static StackBarParentItemControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarParentItemControl), new FrameworkPropertyMetadata(typeof(StackBarParentItemControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarParentItemControl),
+                new FrameworkPropertyMetadata(typeof(StackBarParentItemControl)));
         }
 
-        public static DependencyProperty LegendProperty = DependencyProperty.Register("Legend", typeof(Dictionary<string, Color>), typeof(StackBarParentItemControl));
+        public static DependencyProperty LegendProperty = DependencyProperty.Register("Legend",
+            typeof(Dictionary<string, Color>), typeof(StackBarParentItemControl));
+
         public Dictionary<string, Color> Legend
         {
-            get { return (Dictionary<string, Color>)GetValue(LegendProperty); }
+            get { return (Dictionary<string, Color>) GetValue(LegendProperty); }
             set { SetValue(LegendProperty, value); }
         }
 
+        public static DependencyProperty UnitValueFieldProperty = DependencyProperty.Register("UnitValueField",
+            typeof(string), typeof(StackBarParentItemControl));
+
+        public string UnitValueField
+        {
+            get { return (string) GetValue(UnitValueFieldProperty); }
+            set { SetValue(UnitValueFieldProperty, value); }
+        }
+
+        public Binding UnitValueBinding
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(UnitValueField))
+                    throw new Exception("Unit value binding failed: field name is not set");
+                var binding = new Binding("/" + UnitValueField);
+                SetBinding(WidthProperty, binding);
+                return binding;
+            }
+
+        }
+
+        //public Binding UnitLabelBinding
+        //{
+        //    get
+        //    {
+        //        if (String.IsNullOrEmpty(UnitLabelField))
+        //            throw new Exception("Unit label binding failed: field name is not set");
+        //        //return new Binding("/" + UnitLabelField);
+        //        return new Binding("Name");
+        //    }
+        //}
+
+        public static readonly DependencyProperty UnitTemplateProperty = DependencyProperty.Register(
+            "UnitTemplate", typeof(DataTemplate), typeof(StackBarParentItemControl), new PropertyMetadata(default(DataTemplate)));
+
+        public DataTemplate UnitTemplate
+        {
+            get { return (DataTemplate)GetValue(UnitTemplateProperty); }
+            set { SetValue(UnitTemplateProperty, value); }
+        }
     }
 }

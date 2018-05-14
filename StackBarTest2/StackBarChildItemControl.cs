@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StackBarTest2
 {
@@ -44,8 +45,19 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarChildItemControl/>
     ///
     /// </summary>
-    public class StackBarChildItemControl : Control
+    public class StackBarChildItemControl : ContentControl
     {
+        protected override void OnInitialized(EventArgs e)
+        {
+            if (String.IsNullOrEmpty(ValueFieldName))
+                ValueFieldName = "Area";
+
+            var valueBinding = new Binding(ValueFieldName); 
+            SetBinding(WidthProperty, valueBinding);
+
+            base.OnInitialized(e);
+        }
+
         static StackBarChildItemControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarChildItemControl), new FrameworkPropertyMetadata(typeof(StackBarChildItemControl)));
