@@ -11,11 +11,15 @@
     </Window.Resources>
     <Grid>
         <local:StackBarParentItemControl Legend="{Binding LegendDictionary}"
-                                         ItemsSource="{Binding Rooms}"
-                                         UnitValueField="Area">
+                                         ItemsSource="{Binding TestFloor.Rooms}"
+                                         UnitValueField="Area"
+                                         BarValueField="Area"
+                                         BorderBrush="Black"
+                                         BorderThickness="0"
+                                         MaxHeight="100">
             <local:StackBarParentItemControl.UnitTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}">
+                    <TextBlock Text="{Binding Name}" Height="100" TextWrapping="Wrap" >
                         <TextBlock.Background>
                             <SolidColorBrush>
                                 <SolidColorBrush.Color>

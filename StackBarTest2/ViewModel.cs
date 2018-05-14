@@ -43,9 +43,9 @@ namespace StackBarTest2
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors { get { return _floors; } }
 
-        public ObservableCollection<Room> Rooms
+        public Floor TestFloor
         {
-            get { return _floors[0].Rooms; }
+            get { return _floors[0]; }
         }
     }
 }

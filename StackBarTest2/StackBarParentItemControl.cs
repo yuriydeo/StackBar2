@@ -47,6 +47,22 @@ namespace StackBarTest2
     /// </summary>
     public class StackBarParentItemControl : ItemsControl
     {
+        protected override void OnInitialized(EventArgs e)
+        {
+            if (String.IsNullOrEmpty(BarValueField))
+                BarValueField = "Area";
+            //throw new ArgumentException("ValueFieldName is not set");
+
+            MultiBinding multiBinding = new MultiBinding();
+            multiBinding.Bindings.Add(new Binding("TestFloor.Area"));
+            multiBinding.Bindings.Add(new Binding("WidthMultiplier") {Source = this, FallbackValue = 3.5 });
+            multiBinding.Converter = new ValueWidthConverter();
+            multiBinding.NotifyOnSourceUpdated = true;
+            SetBinding(WidthProperty, multiBinding);
+
+            base.OnInitialized(e);
+        }
+        
         static StackBarParentItemControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarParentItemControl),
@@ -71,26 +87,32 @@ namespace StackBarTest2
             set { SetValue(UnitValueFieldProperty, value); }
         }
 
-        public static DependencyProperty UnitLabelFielddProperty = DependencyProperty.Register("UnitLabelField",
+        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField",
             typeof(string), typeof(StackBarParentItemControl));
 
-        public string UnitLabelField
+        public string BarValueField
         {
-            get { return (string)GetValue(UnitLabelFielddProperty); }
-            set { SetValue(UnitLabelFielddProperty, value); }
+            get { return (string)GetValue(BarValueFieldProperty); }
+            set { SetValue(BarValueFieldProperty, value); }
         }
 
-        //public Binding UnitLabelBinding
-        //{
-        //    get
-        //    {
-        //        if (String.IsNullOrEmpty(UnitLabelField))
-        //            throw new Exception("Unit label binding failed: field name is not set");
-        //        var binding = new Binding(UnitLabelField);
-                
-        //        return binding;
-        //    }
-        //}
+        public static DependencyProperty WidthMultiplierProperty = DependencyProperty.Register("WidthMultiplier",
+            typeof(double), typeof(StackBarParentItemControl), new FrameworkPropertyMetadata(2.5, null));
+
+        public double WidthMultiplier
+        {
+            get { return (double)GetValue(WidthMultiplierProperty); }
+            set { SetValue(WidthMultiplierProperty, value); }
+        }
+
+        public static DependencyProperty BarTextFieldProperty = DependencyProperty.Register("BarTextField",
+            typeof(string), typeof(StackBarParentItemControl));
+
+        public string BarTextField
+        {
+            get { return (string)GetValue(BarTextFieldProperty); }
+            set { SetValue(BarTextFieldProperty, value); }
+        }
 
         public static readonly DependencyProperty UnitTemplateProperty = DependencyProperty.Register(
             "UnitTemplate", typeof(DataTemplate), typeof(StackBarParentItemControl), new PropertyMetadata(default(DataTemplate)));

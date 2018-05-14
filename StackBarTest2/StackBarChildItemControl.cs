@@ -49,13 +49,23 @@ namespace StackBarTest2
     {
         protected override void OnInitialized(EventArgs e)
         {
-            if (String.IsNullOrEmpty(ValueFieldName))
-                ValueFieldName = "Area";
-
-            var valueBinding = new Binding(ValueFieldName); 
-            SetBinding(WidthProperty, valueBinding);
+           
 
             base.OnInitialized(e);
+
+            if (String.IsNullOrEmpty(ValueFieldName))
+                ValueFieldName = "Area";
+            //throw new ArgumentException("ValueFieldName is not set");
+
+            var valueBinding = new Binding(ValueFieldName);
+            SetBinding(WidthProperty, valueBinding);
+
+            MultiBinding multiBinding = new MultiBinding();
+            multiBinding.Bindings.Add(new Binding(ValueFieldName));
+            multiBinding.Bindings.Add(new Binding("WidthMultiplier") { Source = this, FallbackValue = 3 });
+            multiBinding.Converter = new ValueWidthConverter();
+            multiBinding.NotifyOnSourceUpdated = true;
+            SetBinding(WidthProperty, multiBinding);
         }
 
         static StackBarChildItemControl()
@@ -69,5 +79,16 @@ namespace StackBarTest2
             get { return (string)GetValue(ValueFieldNameProperty); }
             set { SetValue(ValueFieldNameProperty, value); }
         }
+
+        public static DependencyProperty WidthMultiplierProperty = DependencyProperty.Register("WidthMultiplier",
+            typeof(double), typeof(StackBarChildItemControl), new FrameworkPropertyMetadata(2.0, null));
+
+        public double WidthMultiplier
+        {
+            get { return (double)GetValue(WidthMultiplierProperty); }
+            set { SetValue(WidthMultiplierProperty, value); }
+        }
+
+
     }
 }
