@@ -55,8 +55,8 @@ namespace StackBarTest2
                 ValueFieldName = "Area";
             //throw new ArgumentException("ValueFieldName is not set");
 
-            Binding valueBinding = new Binding(ValueFieldName);
-            SetBinding(WidthProperty, valueBinding);
+            Binding valueBinding = new Binding("Area");
+            SetBinding(UnitValueProperty, valueBinding);
         }
 
         static StackBarChildItemControl()
@@ -69,6 +69,15 @@ namespace StackBarTest2
         {
             get { return (string)GetValue(ValueFieldNameProperty); }
             set { SetValue(ValueFieldNameProperty, value); }
+        }
+
+        public static DependencyProperty UnitValueProperty = DependencyProperty.Register("UnitValue",
+            typeof(double), typeof(StackBarChildItemControl));
+
+        public double UnitValue
+        {
+            get { return (double)GetValue(UnitValueProperty); }
+            set { SetValue(UnitValueProperty, value); }
         }
     }
 }

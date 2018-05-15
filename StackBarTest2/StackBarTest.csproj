@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="LegendValueColorConverter.cs" />
     <Compile Include="Model Classes.cs" />
+    <Compile Include="ProportionalValueWidthConverter.cs" />
     <Compile Include="StackBarChildItemControl.cs" />
     <Compile Include="StackBarControl.cs" />
     <Compile Include="StackBarParentItemControl.cs" />

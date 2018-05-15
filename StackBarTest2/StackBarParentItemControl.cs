@@ -53,8 +53,8 @@ namespace StackBarTest2
                 BarValueField = "TestFloor.Area";
             //throw new ArgumentException("ValueFieldName is not set");
 
-            Binding valueBinding = new Binding(BarValueField);
-            SetBinding(WidthProperty, valueBinding);
+            Binding valueBinding = new Binding("TestFloor.Area");
+            SetBinding(BarValueProperty, valueBinding);
 
             base.OnInitialized(e);
         }
@@ -108,6 +108,15 @@ namespace StackBarTest2
         {
             get { return (DataTemplate)GetValue(UnitTemplateProperty); }
             set { SetValue(UnitTemplateProperty, value); }
+        }
+
+        public static DependencyProperty BarValueProperty = DependencyProperty.Register("BarValue",
+            typeof(double), typeof(StackBarParentItemControl));
+
+        public double BarValue
+        {
+            get { return (double)GetValue(BarValueProperty); }
+            set { SetValue(BarValueProperty, value); }
         }
     }
 }

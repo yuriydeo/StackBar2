@@ -10,6 +10,7 @@
         <local:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
+        <Grid.Resources></Grid.Resources>
         <local:StackBarControl>
 
         </local:StackBarControl>
