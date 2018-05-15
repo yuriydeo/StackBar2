@@ -10,6 +10,9 @@
         <local:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
+        <local:StackBarControl>
+
+        </local:StackBarControl>
         <local:StackBarParentItemControl Legend="{Binding LegendDictionary}"
                                          ItemsSource="{Binding TestFloor.Rooms}"
                                          UnitValueField="Area"

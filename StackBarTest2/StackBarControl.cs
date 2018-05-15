@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,11 +45,28 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarControl/>
     ///
     /// </summary>
-    public class StackBarControl : Control
+    public class StackBarControl : ContentControl
     {
         static StackBarControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
+        }
+
+        public static DependencyProperty LegendProperty = DependencyProperty.Register("Legend",
+            typeof(Dictionary<string, Color>), typeof(StackBarControl));
+
+        public Dictionary<string, Color> Legend
+        {
+            get { return (Dictionary<string, Color>)GetValue(LegendProperty); }
+            set { SetValue(LegendProperty, value); }
+        }
+
+        public static DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource",
+            typeof(IEnumerable), typeof(StackBarControl));
+        public IEnumerable ItemsSource
+        {
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
     }
 }

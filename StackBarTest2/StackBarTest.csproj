@@ -59,7 +59,6 @@
     <Compile Include="StackBarChildItemControl.cs" />
     <Compile Include="StackBarControl.cs" />
     <Compile Include="StackBarParentItemControl.cs" />
-    <Compile Include="ValueWidthConverter.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

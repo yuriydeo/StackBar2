@@ -11,6 +11,32 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <local:StackBarParentItemControl></local:StackBarParentItemControl>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <local:StackBarParentItemControl DockPanel.Dock="Bottom"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <DockPanel LastChildFill="False"></DockPanel>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -52,15 +78,14 @@
                                 </ListBox.ItemsPanel>
                             </ListBox>
                         </StackPanel>
-                       
-                     </Border>
+
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="{x:Type local:StackBarChildItemControl}">
-        <Setter Property="WidthMultiplier" Value="{Binding WidthMultiplier, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarChildItemControl}">
@@ -74,4 +99,3 @@
         </Setter>
     </Style>
 </ResourceDictionary>
-<!---->

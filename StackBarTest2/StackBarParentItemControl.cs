@@ -50,15 +50,11 @@ namespace StackBarTest2
         protected override void OnInitialized(EventArgs e)
         {
             if (String.IsNullOrEmpty(BarValueField))
-                BarValueField = "Area";
+                BarValueField = "TestFloor.Area";
             //throw new ArgumentException("ValueFieldName is not set");
 
-            MultiBinding multiBinding = new MultiBinding();
-            multiBinding.Bindings.Add(new Binding("TestFloor.Area"));
-            multiBinding.Bindings.Add(new Binding("WidthMultiplier") {Source = this, FallbackValue = 3.5 });
-            multiBinding.Converter = new ValueWidthConverter();
-            multiBinding.NotifyOnSourceUpdated = true;
-            SetBinding(WidthProperty, multiBinding);
+            Binding valueBinding = new Binding(BarValueField);
+            SetBinding(WidthProperty, valueBinding);
 
             base.OnInitialized(e);
         }
@@ -94,15 +90,6 @@ namespace StackBarTest2
         {
             get { return (string)GetValue(BarValueFieldProperty); }
             set { SetValue(BarValueFieldProperty, value); }
-        }
-
-        public static DependencyProperty WidthMultiplierProperty = DependencyProperty.Register("WidthMultiplier",
-            typeof(double), typeof(StackBarParentItemControl), new FrameworkPropertyMetadata(2.5, null));
-
-        public double WidthMultiplier
-        {
-            get { return (double)GetValue(WidthMultiplierProperty); }
-            set { SetValue(WidthMultiplierProperty, value); }
         }
 
         public static DependencyProperty BarTextFieldProperty = DependencyProperty.Register("BarTextField",
