@@ -56,6 +56,12 @@ namespace StackBarTest2
             Binding valueBinding = new Binding("TestFloor.Area");
             SetBinding(BarValueProperty, valueBinding);
 
+            //if (String.IsNullOrEmpty(ChildrenField))
+            //    ChildrenField = "Rooms";
+
+            //Binding childrenBinding = new Binding(ChildrenField);
+            //SetBinding(ItemsSourceProperty, childrenBinding);
+
             base.OnInitialized(e);
         }
         
@@ -117,6 +123,15 @@ namespace StackBarTest2
         {
             get { return (double)GetValue(BarValueProperty); }
             set { SetValue(BarValueProperty, value); }
+        }
+
+        public static DependencyProperty ChildrenFieldProperty = DependencyProperty.Register("ChildrenField",
+            typeof(string), typeof(StackBarParentItemControl));
+
+        public string ChildrenField
+        {
+            get { return (string)GetValue(ChildrenFieldProperty); }
+            set { SetValue(ChildrenFieldProperty, value); }
         }
     }
 }

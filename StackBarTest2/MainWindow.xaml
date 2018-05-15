@@ -10,10 +10,53 @@
         <local:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
-        <Grid.Resources></Grid.Resources>
-        <local:StackBarControl>
+        <local:StackBarControl ItemsSource="{Binding Floors}"
+                               Legend="{Binding LegendDictionary}">
+            <local:StackBarControl.Template>
+                <ControlTemplate>
+                    <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="local:Floor">
+                                <local:StackBarParentItemControl     ChildrenField="Rooms"
+                                                                     UnitValueField="Area"
+                                                                     DataContext="{Binding}"
+                                                                     BarValueField="Area"
+                                                                     BorderBrush="Black"
+                                                                     BorderThickness="0"
+                                                                     Height="100">
+                                    <local:StackBarParentItemControl.UnitTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Height="100" TextWrapping="Wrap" >
+                                                <TextBlock.Background>
+                                                    <SolidColorBrush>
+                                                        <SolidColorBrush.Color>
+                                                            <MultiBinding Converter="{StaticResource LegendConverter}">
+                                                                <Binding Path="Legend" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}" />
+                                                                <Binding Path="Type" />
+                                                            </MultiBinding>
+                                                        </SolidColorBrush.Color>
+                                                    </SolidColorBrush>
+                                                </TextBlock.Background>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </local:StackBarParentItemControl.UnitTemplate> >
+                                </local:StackBarParentItemControl>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <DockPanel LastChildFill="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
 
+                    </ListBox>
+
+                </ControlTemplate>
+            </local:StackBarControl.Template>
         </local:StackBarControl>
+        
+        
+
         <local:StackBarParentItemControl Legend="{Binding LegendDictionary}"
                                          ItemsSource="{Binding TestFloor.Rooms}"
                                          UnitValueField="Area"

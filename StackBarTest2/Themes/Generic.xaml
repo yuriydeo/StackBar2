@@ -13,7 +13,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
 
-                        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                        <!--<ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                             <ListBox.Template>
                                 <ControlTemplate>
                                     <local:StackBarParentItemControl></local:StackBarParentItemControl>
@@ -36,7 +36,7 @@
                                     <DockPanel LastChildFill="False"></DockPanel>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
-                        </ListBox>
+                        </ListBox>-->
 
                     </Border>
                 </ControlTemplate>
