@@ -26,28 +26,12 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid IsSharedSizeScope="True">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="ColumnOne" />
-                                            <ColumnDefinition SharedSizeGroup="ColumnTwo" Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <ContentControl Grid.Column="0" Content="{Binding}"
-                                                        ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                        </ContentControl>
-
-                                        <local:StackBarParentItemControl Grid.Column="1" 
-                                                                         BarValueField="{Binding BarValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                         BarItemsSourceField="{Binding BarItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                         HorizontalAlignment="Left">
-                                            <local:StackBarParentItemControl.Width>
-                                                <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
-                                                    <Binding Path="MaxValue" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
-                                                    <Binding Path="BarValue" RelativeSource="{RelativeSource Self}"></Binding>
-                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
-                                                </MultiBinding>
-                                            </local:StackBarParentItemControl.Width>
-                                        </local:StackBarParentItemControl>
-                                    </Grid>
+                                    <local:StackBarParentItemControl BarValueField="{Binding BarValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                     BarItemsSourceField="{Binding BarItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                     HorizontalAlignment="Left"
+                                                                     BarParentWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                                        
+                                    </local:StackBarParentItemControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -63,46 +47,66 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarParentItemControl}">
+        <Setter Property="HeaderWidth" Value="{Binding ElementName=BarHeader, Path=ActualWidth}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarParentItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
-                            <ListBox.Template>
-                                <ControlTemplate>
-                                    <ItemsPresenter />
-                                </ControlTemplate>
-                            </ListBox.Template>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <local:StackBarChildItemControl ValueFieldName="{Binding UnitValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                        <Grid IsSharedSizeScope="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="ColumnOne" />
+                                <ColumnDefinition SharedSizeGroup="ColumnTwo" Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentControl Grid.Column="0" 
+                                            Content="{Binding}"
+                                            Name ="BarHeader"
+                                            ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                            </ContentControl>
+                            <ListBox  Grid.Column="1" 
+                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
+                                <ListBox.Width>
+                                    <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
+                                        <Binding Path="MaxValue" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
+                                        <Binding Path="BarValue" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                        <Binding Path="FillWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                    </MultiBinding>
+                                </ListBox.Width>
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter />
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:StackBarChildItemControl  ValueFieldName="{Binding UnitValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                         Content="{Binding}"
                                                                         ContentTemplate="{Binding UnitTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                        <local:StackBarChildItemControl.Width>
-                                            <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
-                                                <Binding Path="BarValue" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
-                                                <Binding Path="UnitValue" RelativeSource="{RelativeSource Self}"></Binding>
-                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
-                                            </MultiBinding>
-                                        </local:StackBarChildItemControl.Width>
-                                    </local:StackBarChildItemControl>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"></StackPanel>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                                            <local:StackBarChildItemControl.Width>
+                                                <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
+                                                    <Binding Path="BarValue" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                                    <Binding Path="UnitValue" RelativeSource="{RelativeSource Self}"></Binding>
+                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                                </MultiBinding>
+                                            </local:StackBarChildItemControl.Width>
+                                        </local:StackBarChildItemControl>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

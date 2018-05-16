@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -100,6 +101,41 @@ namespace StackBarTest2
         {
             get { return (double)GetValue(BarValueProperty); }
             set { SetValue(BarValueProperty, value); }
+        }
+
+        public static DependencyProperty HeaderWidthProperty = DependencyProperty.Register("HeaderWidth",
+            typeof(double), typeof(StackBarParentItemControl));
+
+        public double HeaderWidth
+        {
+            get { return (double)GetValue(HeaderWidthProperty); }
+            set
+            {
+                SetValue(HeaderWidthProperty, value);
+                FillWidth = BarParentWidth - HeaderWidth;
+            }
+        }
+
+        public static DependencyProperty BarParentWidthProperty = DependencyProperty.Register("BarParentWidth",
+            typeof(double), typeof(StackBarParentItemControl));
+
+        public double BarParentWidth
+        {
+            get { return (double)GetValue(BarParentWidthProperty); }
+            set
+            {
+                SetValue(BarParentWidthProperty, value);
+                FillWidth = BarParentWidth - HeaderWidth;
+            }
+        }
+
+        public static DependencyProperty FillWidthProperty = DependencyProperty.Register("FillWidth",
+            typeof(double), typeof(StackBarParentItemControl));
+
+        public double FillWidth
+        {
+            get { return (double)GetValue(FillWidthProperty); }
+            set { SetValue(FillWidthProperty, value); }
         }
     }
 }
