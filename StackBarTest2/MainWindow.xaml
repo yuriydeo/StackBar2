@@ -10,14 +10,14 @@
         <local:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
-        <local:StackBarControl ItemsSource="{Binding Floors}"
+        <!--<local:StackBarControl ItemsSource="{Binding Floors}"
                                Legend="{Binding LegendDictionary}">
             <local:StackBarControl.Template>
                 <ControlTemplate>
                     <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="local:Floor">
-                                <local:StackBarParentItemControl     ChildrenField="Rooms"
+                                <local:StackBarParentItemControl     
                                                                      UnitValueField="Area"
                                                                      DataContext="{Binding}"
                                                                      BarValueField="Area"
@@ -53,12 +53,13 @@
 
                 </ControlTemplate>
             </local:StackBarControl.Template>
-        </local:StackBarControl>
+        </local:StackBarControl>-->
         
         
 
-        <local:StackBarParentItemControl Legend="{Binding LegendDictionary}"
-                                         ItemsSource="{Binding TestFloor.Rooms}"
+        <local:StackBarParentItemControl DataContext="{Binding TestFloor}"
+                                         Legend="{Binding DataContext.LegendDictionary, RelativeSource={RelativeSource AncestorType=Window}}"
+                                         ItemsSource="{Binding Rooms}"
                                          UnitValueField="Area"
                                          BarValueField="Area"
                                          BorderBrush="Black"
@@ -66,8 +67,8 @@
                                          MaxHeight="100">
             <local:StackBarParentItemControl.UnitTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" Height="100" TextWrapping="Wrap" >
-                        <TextBlock.Background>
+                    <StackPanel Orientation="Vertical" Height="100">
+                        <StackPanel.Background>
                             <SolidColorBrush>
                                 <SolidColorBrush.Color>
                                     <MultiBinding Converter="{StaticResource LegendConverter}">
@@ -76,8 +77,11 @@
                                     </MultiBinding>
                                 </SolidColorBrush.Color>
                             </SolidColorBrush>
-                        </TextBlock.Background>
-                    </TextBlock>
+                        </StackPanel.Background>
+                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Type}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
+                    </StackPanel>
                 </DataTemplate>
             </local:StackBarParentItemControl.UnitTemplate>
         </local:StackBarParentItemControl>

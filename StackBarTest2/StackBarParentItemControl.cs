@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,24 +48,6 @@ namespace StackBarTest2
     /// </summary>
     public class StackBarParentItemControl : ItemsControl
     {
-        protected override void OnInitialized(EventArgs e)
-        {
-            if (String.IsNullOrEmpty(BarValueField))
-                BarValueField = "TestFloor.Area";
-            //throw new ArgumentException("ValueFieldName is not set");
-
-            Binding valueBinding = new Binding("TestFloor.Area");
-            SetBinding(BarValueProperty, valueBinding);
-
-            //if (String.IsNullOrEmpty(ChildrenField))
-            //    ChildrenField = "Rooms";
-
-            //Binding childrenBinding = new Binding(ChildrenField);
-            //SetBinding(ItemsSourceProperty, childrenBinding);
-
-            base.OnInitialized(e);
-        }
-        
         static StackBarParentItemControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarParentItemControl),
@@ -89,8 +72,13 @@ namespace StackBarTest2
             set { SetValue(UnitValueFieldProperty, value); }
         }
 
-        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField",
-            typeof(string), typeof(StackBarParentItemControl));
+        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField", typeof(string), typeof(StackBarParentItemControl), new PropertyMetadata(null, BarValueFieldPropertyChangedCallback));
+
+        private static void BarValueFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var caller = (StackBarParentItemControl)d;
+            caller.SetBinding(BarValueProperty, new Binding(caller.BarValueField));
+        }
 
         public string BarValueField
         {
@@ -123,15 +111,6 @@ namespace StackBarTest2
         {
             get { return (double)GetValue(BarValueProperty); }
             set { SetValue(BarValueProperty, value); }
-        }
-
-        public static DependencyProperty ChildrenFieldProperty = DependencyProperty.Register("ChildrenField",
-            typeof(string), typeof(StackBarParentItemControl));
-
-        public string ChildrenField
-        {
-            get { return (string)GetValue(ChildrenFieldProperty); }
-            set { SetValue(ChildrenFieldProperty, value); }
         }
     }
 }

@@ -47,24 +47,19 @@ namespace StackBarTest2
     /// </summary>
     public class StackBarChildItemControl : ContentControl
     {
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-
-            if (String.IsNullOrEmpty(ValueFieldName))
-                ValueFieldName = "Area";
-            //throw new ArgumentException("ValueFieldName is not set");
-
-            Binding valueBinding = new Binding("Area");
-            SetBinding(UnitValueProperty, valueBinding);
-        }
-
         static StackBarChildItemControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarChildItemControl), new FrameworkPropertyMetadata(typeof(StackBarChildItemControl)));
         }
 
-        public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarChildItemControl));
+        public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarChildItemControl), new PropertyMetadata(null, ValueFieldNamePropertyChangedCallback));
+
+        private static void ValueFieldNamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var caller = (StackBarChildItemControl) d;
+            caller.SetBinding(UnitValueProperty, new Binding(caller.ValueFieldName));
+        }
+
         public string ValueFieldName
         {
             get { return (string)GetValue(ValueFieldNameProperty); }
