@@ -45,28 +45,64 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarControl/>
     ///
     /// </summary>
-    public class StackBarControl : ContentControl
+    public class StackBarControl : ItemsControl
     {
         static StackBarControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
         }
 
-        public static DependencyProperty LegendProperty = DependencyProperty.Register("Legend",
-            typeof(Dictionary<string, Color>), typeof(StackBarControl));
+        public static DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue",
+            typeof(double), typeof(StackBarControl));
 
-        public Dictionary<string, Color> Legend
+        public double MaxValue
         {
-            get { return (Dictionary<string, Color>)GetValue(LegendProperty); }
-            set { SetValue(LegendProperty, value); }
+            get { return (double)GetValue(MaxValueProperty); }
+            set { SetValue(MaxValueProperty, value); }
         }
 
-        public static DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource",
-            typeof(IEnumerable), typeof(StackBarControl));
-        public IEnumerable ItemsSource
+        public static DependencyProperty UnitValueFieldProperty = DependencyProperty.Register("UnitValueField",
+            typeof(string), typeof(StackBarControl));
+
+        public string UnitValueField
         {
-            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get { return (string)GetValue(UnitValueFieldProperty); }
+            set { SetValue(UnitValueFieldProperty, value); }
+        }
+
+        public static readonly DependencyProperty UnitTemplateProperty = DependencyProperty.Register(
+            "UnitTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
+
+        public DataTemplate UnitTemplate
+        {
+            get { return (DataTemplate)GetValue(UnitTemplateProperty); }
+            set { SetValue(UnitTemplateProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(
+            "HeaderTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
+
+        public DataTemplate HeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
+        }
+
+        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField", typeof(string), typeof(StackBarControl));
+
+        public string BarValueField
+        {
+            get { return (string)GetValue(BarValueFieldProperty); }
+            set { SetValue(BarValueFieldProperty, value); }
+        }
+
+        public static DependencyProperty BarItemsSourceFieldProperty = DependencyProperty.Register("BarItemsSourceField",
+            typeof(string), typeof(StackBarControl));
+
+        public string BarItemsSourceField
+        {
+            get { return (string)GetValue(BarItemsSourceFieldProperty); }
+            set { SetValue(BarItemsSourceFieldProperty, value); }
         }
     }
 }

@@ -54,24 +54,7 @@ namespace StackBarTest2
                 new FrameworkPropertyMetadata(typeof(StackBarParentItemControl)));
         }
 
-        public static DependencyProperty LegendProperty = DependencyProperty.Register("Legend",
-            typeof(Dictionary<string, Color>), typeof(StackBarParentItemControl));
-
-        public Dictionary<string, Color> Legend
-        {
-            get { return (Dictionary<string, Color>) GetValue(LegendProperty); }
-            set { SetValue(LegendProperty, value); }
-        }
-
-        public static DependencyProperty UnitValueFieldProperty = DependencyProperty.Register("UnitValueField",
-            typeof(string), typeof(StackBarParentItemControl));
-
-        public string UnitValueField
-        {
-            get { return (string) GetValue(UnitValueFieldProperty); }
-            set { SetValue(UnitValueFieldProperty, value); }
-        }
-
+      
         public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField", typeof(string), typeof(StackBarParentItemControl), new PropertyMetadata(null, BarValueFieldPropertyChangedCallback));
 
         private static void BarValueFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -95,15 +78,21 @@ namespace StackBarTest2
             set { SetValue(BarTextFieldProperty, value); }
         }
 
-        public static readonly DependencyProperty UnitTemplateProperty = DependencyProperty.Register(
-            "UnitTemplate", typeof(DataTemplate), typeof(StackBarParentItemControl), new PropertyMetadata(default(DataTemplate)));
+        public static DependencyProperty BarItemsSourceFieldProperty = DependencyProperty.Register("BarItemsSourceField",
+            typeof(string), typeof(StackBarParentItemControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
 
-        public DataTemplate UnitTemplate
+        private static void BarItemsSourceFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return (DataTemplate)GetValue(UnitTemplateProperty); }
-            set { SetValue(UnitTemplateProperty, value); }
+            var caller = (StackBarParentItemControl)d;
+            caller.SetBinding(ItemsSourceProperty, new Binding(caller.BarItemsSourceField));
         }
 
+        public string BarItemsSourceField
+        {
+            get { return (string)GetValue(BarItemsSourceFieldProperty); }
+            set { SetValue(BarItemsSourceFieldProperty, value); }
+        }
+        
         public static DependencyProperty BarValueProperty = DependencyProperty.Register("BarValue",
             typeof(double), typeof(StackBarParentItemControl));
 

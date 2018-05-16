@@ -13,7 +13,6 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
-
         }
 
         private void PopulateData()
@@ -42,6 +41,11 @@ namespace StackBarTest2
 
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors { get { return _floors; } }
+
+        public double FloorMaxValue
+        {
+            get { return _floors.Max(x => x.Area); }
+        }
 
         public Floor TestFloor
         {
