@@ -47,7 +47,7 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarParentItemControl/>
     ///
     /// </summary>
-    public class StackBarParentItemControl : ItemsControl
+    public class StackBarParentItemControl : ItemsControl, INotifyPropertyChanged
     {
         static StackBarParentItemControl()
         {
@@ -113,6 +113,7 @@ namespace StackBarTest2
             {
                 SetValue(HeaderWidthProperty, value);
                 FillWidth = BarParentWidth - HeaderWidth;
+                OnPropertyChanged("FillWidth");
             }
         }
 
@@ -126,16 +127,32 @@ namespace StackBarTest2
             {
                 SetValue(BarParentWidthProperty, value);
                 FillWidth = BarParentWidth - HeaderWidth;
-            }
+                OnPropertyChanged("FillWidth");
+            } 
         }
 
         public static DependencyProperty FillWidthProperty = DependencyProperty.Register("FillWidth",
             typeof(double), typeof(StackBarParentItemControl));
 
-        public double FillWidth
+        public double FillWidth { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get { return (double)GetValue(FillWidthProperty); }
-            set { SetValue(FillWidthProperty, value); }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private static void BarFillWidthChangedEvent(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //var bar = (StackBarParentItemControl) d;
+            //((StackBarParentItemControl)d).OnPropertyChanged("FillWidth");
+        }
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+            FillWidth = BarParentWidth - HeaderWidth;
+            OnPropertyChanged("FillWidth");
         }
     }
 }

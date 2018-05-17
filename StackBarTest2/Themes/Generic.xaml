@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:StackBarTest2">
     <local:ProportionalValueWidthConverter x:Key="proportionalValueWidthConverter"/>
+    <local:ProportionalValueWidthWithHeaderConverter x:Key="proportionalValueWidthConverterWithHeader"/>
 
     <Style TargetType="{x:Type local:StackBarControl}">
         <Setter Property="Template">
@@ -28,7 +29,7 @@
                                 <DataTemplate>
                                     <local:StackBarParentItemControl BarValueField="{Binding BarValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                      BarItemsSourceField="{Binding BarItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                     HorizontalAlignment="Left"
+                                                                     HorizontalAlignment="Stretch"
                                                                      BarParentWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                                         
                                     </local:StackBarParentItemControl>
@@ -47,7 +48,6 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarParentItemControl}">
-        <Setter Property="HeaderWidth" Value="{Binding ElementName=BarHeader, Path=ActualWidth}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarParentItemControl}">
@@ -67,10 +67,11 @@
                             <ListBox  Grid.Column="1" 
                                       ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
                                 <ListBox.Width>
-                                    <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
+                                        <MultiBinding Converter="{StaticResource proportionalValueWidthConverterWithHeader}">
                                         <Binding Path="MaxValue" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
                                         <Binding Path="BarValue" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
-                                        <Binding Path="FillWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
+                                        <Binding Path="ActualWidth" ElementName="BarHeader"></Binding>
                                     </MultiBinding>
                                 </ListBox.Width>
                                 <ListBox.Template>
@@ -91,10 +92,11 @@
                                                                         Content="{Binding}"
                                                                         ContentTemplate="{Binding UnitTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                                             <local:StackBarChildItemControl.Width>
-                                                <MultiBinding Converter="{StaticResource proportionalValueWidthConverter}">
+                                                <MultiBinding Converter="{StaticResource proportionalValueWidthConverterWithHeader}">
                                                     <Binding Path="BarValue" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
                                                     <Binding Path="UnitValue" RelativeSource="{RelativeSource Self}"></Binding>
                                                     <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=local:StackBarParentItemControl}"></Binding>
+                                                    <Binding Path="ActualWidth" ElementName="BarHeader"></Binding>
                                                 </MultiBinding>
                                             </local:StackBarChildItemControl.Width>
                                         </local:StackBarChildItemControl>
