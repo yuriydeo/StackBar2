@@ -54,10 +54,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="LegendValueColorConverter.cs" />
+    <Compile Include="Converters\LegendValueColorConverter.cs" />
+    <Compile Include="Converters\ValueScaleConverter.cs" />
     <Compile Include="Model Classes.cs" />
-    <Compile Include="ProportionalValueWidthConverter.cs" />
-    <Compile Include="ProportionalValueWidthWithHeaderConverter.cs" />
+    <Compile Include="Converters\ProportionalValueWidthConverter.cs" />
+    <Compile Include="Converters\ProportionalValueWidthWithHeaderConverter.cs" />
     <Compile Include="StackBarChildItemControl.cs" />
     <Compile Include="StackBarControl.cs" />
     <Compile Include="StackBarParentItemControl.cs" />

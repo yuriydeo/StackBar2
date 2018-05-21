@@ -5,20 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media.Converters;
 
-namespace StackBarTest2
+namespace StackBarTest2.Converters
 {
-    /// <summary>
-    /// Parent Value, Child Value, Parent Width
-    /// </summary>
-    public class ProportionalValueWidthConverter : IMultiValueConverter
+    public class ProportionalValueWidthWithHeaderConverter : IMultiValueConverter
     {
+        /// <summary>
+        /// Parent Value, Child Value, Parent Width, Header Width
+        /// </summary>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var parentValue = (double) values[0];
+            var parentValue = (double)values[0];
             var childValue = (double)values[1];
             var parentWidth = (double)values[2];
-            return (parentWidth * childValue) / parentValue;
+            var headerWidth = (double) values[3];
+            return ((parentWidth - headerWidth) * childValue) / parentValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

@@ -4,21 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StackBarTest2"
+        xmlns:converters="clr-namespace:StackBarTest2.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <local:LegendValueColorConverter x:Key="LegendConverter"/>
+        <converters:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
         <local:StackBarControl ItemsSource="{Binding Floors}"
                                UnitValueField="Area"
-                               BarValueField="Area"
-                               MaxValue="{Binding FloorMaxValue}"
-                               BarItemsSourceField="Rooms">
+                               BarItemsSourceField="Rooms"
+                               MinUnitWidth="0">
 
             <local:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:Floor">
-                    <StackPanel Orientation="Vertical" Height="100" Background="Beige" Width="40">
+                    <StackPanel Orientation="Vertical" Height="100" Background="Beige" Width="0">
                         <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
                         <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
                     </StackPanel>
@@ -27,51 +27,25 @@
 
             <local:StackBarControl.UnitTemplate>
                 <DataTemplate DataType="local:Room">
-                    <StackPanel Orientation="Vertical" Height="100">
-                        <StackPanel.Background>
-                            <SolidColorBrush>
-                                <SolidColorBrush.Color>
-                                    <MultiBinding Converter="{StaticResource LegendConverter}">
-                                        <Binding Path="DataContext.LegendDictionary" RelativeSource="{RelativeSource AncestorType=Window}" />
-                                        <Binding Path="Type" />
-                                    </MultiBinding>
-                                </SolidColorBrush.Color>
-                            </SolidColorBrush>
-                        </StackPanel.Background>
-                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding Type}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
-                    </StackPanel>
+                    <Border BorderThickness="1">
+                        <StackPanel Orientation="Vertical" Height="100">
+                            <StackPanel.Background>
+                                <SolidColorBrush>
+                                    <SolidColorBrush.Color>
+                                        <MultiBinding Converter="{StaticResource LegendConverter}">
+                                            <Binding Path="DataContext.LegendDictionary" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                            <Binding Path="Type" />
+                                        </MultiBinding>
+                                    </SolidColorBrush.Color>
+                                </SolidColorBrush>
+                            </StackPanel.Background>
+                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Type}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </local:StackBarControl.UnitTemplate>
         </local:StackBarControl>
-        
-        
-
-        <!--<local:StackBarParentItemControl DataContext="{Binding TestFloor}"
-                                         ItemsSource="{Binding Rooms}"
-                                         UnitValueField="Area"
-                                         BarValueField="Area"
-                                         MaxHeight="100">
-            <local:StackBarParentItemControl.UnitTemplate>
-                <DataTemplate DataType="local:Room">
-                    <StackPanel Orientation="Vertical" Height="100">
-                        <StackPanel.Background>
-                            <SolidColorBrush>
-                                <SolidColorBrush.Color>
-                                    <MultiBinding Converter="{StaticResource LegendConverter}">
-                                        <Binding Path="DataContext.LegendDictionary" RelativeSource="{RelativeSource AncestorType=Window}" />
-                                        <Binding Path="Type" />
-                                    </MultiBinding>
-                                </SolidColorBrush.Color>
-                            </SolidColorBrush>
-                        </StackPanel.Background>
-                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding Type}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
-                    </StackPanel>
-                </DataTemplate>
-            </local:StackBarParentItemControl.UnitTemplate>
-        </local:StackBarParentItemControl>-->
     </Grid>
 </Window>

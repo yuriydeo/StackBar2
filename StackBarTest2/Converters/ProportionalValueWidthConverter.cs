@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media;
 
-namespace StackBarTest2
+namespace StackBarTest2.Converters
 {
-    public class LegendValueColorConverter: IMultiValueConverter
+    /// <summary>
+    /// Parent Value, Child Value, Parent Width
+    /// </summary>
+    public class ProportionalValueWidthConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var legend = (Dictionary<string, Color>)values[0];
-            var value = values[1].ToString();
-            return legend.ContainsKey(value) ? legend[value] : throw new ArgumentException("Value not found in Legend");
+            var parentValue = (double) values[0];
+            var childValue = (double)values[1];
+            var parentWidth = (double)values[2];
+            return (parentWidth * childValue) / parentValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

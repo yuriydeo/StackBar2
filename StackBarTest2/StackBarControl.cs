@@ -52,15 +52,6 @@ namespace StackBarTest2
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
         }
 
-        public static DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue",
-            typeof(double), typeof(StackBarControl));
-
-        public double MaxValue
-        {
-            get { return (double)GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
-        }
-
         public static DependencyProperty UnitValueFieldProperty = DependencyProperty.Register("UnitValueField",
             typeof(string), typeof(StackBarControl));
 
@@ -88,14 +79,6 @@ namespace StackBarTest2
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
-        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField", typeof(string), typeof(StackBarControl));
-
-        public string BarValueField
-        {
-            get { return (string)GetValue(BarValueFieldProperty); }
-            set { SetValue(BarValueFieldProperty, value); }
-        }
-
         public static DependencyProperty BarItemsSourceFieldProperty = DependencyProperty.Register("BarItemsSourceField",
             typeof(string), typeof(StackBarControl));
 
@@ -103,6 +86,85 @@ namespace StackBarTest2
         {
             get { return (string)GetValue(BarItemsSourceFieldProperty); }
             set { SetValue(BarItemsSourceFieldProperty, value); }
+        }
+
+        private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("Scale",
+                typeof(double), typeof(StackBarControl), new PropertyMetadata());
+
+        public static readonly DependencyProperty ScaleProperty =
+            ScalePropertyKey.DependencyProperty;
+
+        public double Scale
+        {
+            get { return (double)GetValue(ScaleProperty); }
+            private set { SetValue(ScalePropertyKey, value); }
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+            SetScale();
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+            SetScale();
+        }
+
+        private void SetScale()
+        {
+            if (MinUnitWidth > 0)
+                SetScaleByUnitValue();
+            else
+                SetScaleByWidth();
+        }
+        private void SetScaleByWidth()
+        {
+            double maxValue = 0;
+            double barValue = 0;
+            if (ItemsSource == null)
+                return;
+            foreach (object item in ItemsSource)
+            {
+                barValue = 0;
+                foreach (object unit in (IEnumerable)item.GetType().GetProperty(BarItemsSourceField).GetValue(item))
+                {
+                    barValue += (double)unit.GetType().GetProperty(UnitValueField).GetValue(unit);
+                }
+                if (barValue > maxValue)
+                    maxValue = barValue;
+            }
+
+            Scale = ActualWidth / maxValue;
+        }
+
+        public static DependencyProperty MinUnitWidthProperty = DependencyProperty.Register("MinUnitWidth",
+            typeof(double), typeof(StackBarControl));
+
+        public double MinUnitWidth
+        {
+            get { return (double)GetValue(MinUnitWidthProperty); }
+            set { SetValue(MinUnitWidthProperty, value); }
+        }
+
+        private void SetScaleByUnitValue()
+        {
+            double minValue = double.MaxValue;
+            
+            if (ItemsSource == null)
+                return;
+            foreach (object item in ItemsSource)
+            {
+                foreach (object unit in (IEnumerable)item.GetType().GetProperty(BarItemsSourceField).GetValue(item))
+                {
+                    double unitValue = (double)unit.GetType().GetProperty(UnitValueField).GetValue(unit);
+                    if (unitValue < minValue)
+                        minValue = unitValue;
+                }
+            }
+
+            Scale = MinUnitWidth / minValue;
         }
     }
 }

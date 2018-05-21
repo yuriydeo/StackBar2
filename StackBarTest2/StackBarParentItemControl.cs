@@ -47,7 +47,7 @@ namespace StackBarTest2
     ///     <MyNamespace:StackBarParentItemControl/>
     ///
     /// </summary>
-    public class StackBarParentItemControl : ItemsControl, INotifyPropertyChanged
+    public class StackBarParentItemControl : ItemsControl
     {
         static StackBarParentItemControl()
         {
@@ -55,29 +55,8 @@ namespace StackBarTest2
                 new FrameworkPropertyMetadata(typeof(StackBarParentItemControl)));
         }
 
-      
-        public static DependencyProperty BarValueFieldProperty = DependencyProperty.Register("BarValueField", typeof(string), typeof(StackBarParentItemControl), new PropertyMetadata(null, BarValueFieldPropertyChangedCallback));
-
-        private static void BarValueFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var caller = (StackBarParentItemControl)d;
-            caller.SetBinding(BarValueProperty, new Binding(caller.BarValueField));
-        }
-
-        public string BarValueField
-        {
-            get { return (string)GetValue(BarValueFieldProperty); }
-            set { SetValue(BarValueFieldProperty, value); }
-        }
-
         public static DependencyProperty BarTextFieldProperty = DependencyProperty.Register("BarTextField",
             typeof(string), typeof(StackBarParentItemControl));
-
-        public string BarTextField
-        {
-            get { return (string)GetValue(BarTextFieldProperty); }
-            set { SetValue(BarTextFieldProperty, value); }
-        }
 
         public static DependencyProperty BarItemsSourceFieldProperty = DependencyProperty.Register("BarItemsSourceField",
             typeof(string), typeof(StackBarParentItemControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
@@ -90,69 +69,8 @@ namespace StackBarTest2
 
         public string BarItemsSourceField
         {
-            get { return (string)GetValue(BarItemsSourceFieldProperty); }
-            set { SetValue(BarItemsSourceFieldProperty, value); }
-        }
-        
-        public static DependencyProperty BarValueProperty = DependencyProperty.Register("BarValue",
-            typeof(double), typeof(StackBarParentItemControl));
-
-        public double BarValue
-        {
-            get { return (double)GetValue(BarValueProperty); }
-            set { SetValue(BarValueProperty, value); }
-        }
-
-        public static DependencyProperty HeaderWidthProperty = DependencyProperty.Register("HeaderWidth",
-            typeof(double), typeof(StackBarParentItemControl));
-
-        public double HeaderWidth
-        {
-            get { return (double)GetValue(HeaderWidthProperty); }
-            set
-            {
-                SetValue(HeaderWidthProperty, value);
-                FillWidth = BarParentWidth - HeaderWidth;
-                OnPropertyChanged("FillWidth");
-            }
-        }
-
-        public static DependencyProperty BarParentWidthProperty = DependencyProperty.Register("BarParentWidth",
-            typeof(double), typeof(StackBarParentItemControl));
-
-        public double BarParentWidth
-        {
-            get { return (double)GetValue(BarParentWidthProperty); }
-            set
-            {
-                SetValue(BarParentWidthProperty, value);
-                FillWidth = BarParentWidth - HeaderWidth;
-                OnPropertyChanged("FillWidth");
-            } 
-        }
-
-        public static DependencyProperty FillWidthProperty = DependencyProperty.Register("FillWidth",
-            typeof(double), typeof(StackBarParentItemControl));
-
-        public double FillWidth { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private static void BarFillWidthChangedEvent(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //var bar = (StackBarParentItemControl) d;
-            //((StackBarParentItemControl)d).OnPropertyChanged("FillWidth");
-        }
-        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-        {
-            base.OnRenderSizeChanged(sizeInfo);
-            FillWidth = BarParentWidth - HeaderWidth;
-            OnPropertyChanged("FillWidth");
+            get => (string)GetValue(BarItemsSourceFieldProperty);
+            set => SetValue(BarItemsSourceFieldProperty, value);
         }
     }
 }
