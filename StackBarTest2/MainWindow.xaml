@@ -14,20 +14,23 @@
         <local:StackBarControl ItemsSource="{Binding Floors}"
                                UnitValueField="Area"
                                BarItemsSourceField="Rooms"
-                               MinUnitWidth="0">
+                               MinUnitWidth="0"
+                               BarHeight="100">
 
             <local:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:Floor">
-                    <StackPanel Orientation="Vertical" Height="100" Background="Beige" Width="0">
-                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
-                    </StackPanel>
+                    <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
+                        <StackPanel Orientation="Vertical" Background="Beige">
+                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </local:StackBarControl.HeaderTemplate>
 
             <local:StackBarControl.UnitTemplate>
                 <DataTemplate DataType="local:Room">
-                    <Border BorderThickness="1">
+                    <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
                             <StackPanel.Background>
                                 <SolidColorBrush>

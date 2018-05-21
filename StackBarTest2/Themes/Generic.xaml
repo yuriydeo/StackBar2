@@ -13,33 +13,60 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                            <ListBox.Template>
-                                <ControlTemplate>
-                                    <ItemsPresenter />
-                                </ControlTemplate>
-                            </ListBox.Template>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="1"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <local:StackBarParentItemControl BarItemsSourceField="{Binding BarItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                     HorizontalAlignment="Stretch">
-                                        
-                                    </local:StackBarParentItemControl>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical"></StackPanel>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                        
+                            <StackPanel Orientation="Horizontal">
+                                <ListBox Name="HeaderContainerListBox" 
+                                     ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Height" Value="{Binding BarHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <ContentControl Content="{Binding}"
+                                                        ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+                                            </ContentControl>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                
+                                    <ListBox Name="BarContainerListBox" 
+                                     ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="Margin" Value="0"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="Height" Value="{Binding BarHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:StackBarParentItemControl BarItemsSourceField="{Binding BarItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                         HorizontalAlignment="Stretch">
+
+                                                </local:StackBarParentItemControl>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"></StackPanel>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                    </ListBox>
+                               
+                            </StackPanel>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -53,18 +80,13 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid IsSharedSizeScope="True">
+                        <!--<Grid IsSharedSizeScope="True">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition SharedSizeGroup="ColumnOne" />
                                 <ColumnDefinition SharedSizeGroup="ColumnTwo" Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ContentControl Grid.Column="0" 
-                                            Content="{Binding}"
-                                            Name ="BarHeader"
-                                            ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                            </ContentControl>
-                            <ListBox  Grid.Column="1" 
-                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
+                            </Grid.ColumnDefinitions>-->
+                            
+                            <ListBox   ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarParentItemControl}}">
                                 <!--<ListBox.Width>
                                         <MultiBinding Converter="{StaticResource proportionalValueWidthConverterWithHeader}">
                                         <Binding Path="MaxValue" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
@@ -111,7 +133,7 @@
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>
-                        </Grid>
+                        <!--</Grid>-->
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

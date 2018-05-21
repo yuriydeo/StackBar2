@@ -16,35 +16,6 @@ using System.Windows.Shapes;
 
 namespace StackBarTest2
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:StackBarTest2"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:StackBarTest2;assembly=StackBarTest2"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:StackBarControl/>
-    ///
-    /// </summary>
     public class StackBarControl : ItemsControl
     {
         static StackBarControl()
@@ -112,6 +83,12 @@ namespace StackBarTest2
             SetScale();
         }
 
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            SetScale();
+        }
+
         private void SetScale()
         {
             if (MinUnitWidth > 0)
@@ -135,23 +112,23 @@ namespace StackBarTest2
                 if (barValue > maxValue)
                     maxValue = barValue;
             }
-
-            Scale = ActualWidth / maxValue;
+            
+            Border border = this.GetVisualChild(0) as Border;
+            ListBox header = border?.FindName("HeaderContainerListBox") as ListBox;
+            double headerWidth = header?.ActualWidth ?? 0;
+            Scale = (ActualWidth - headerWidth) / maxValue;
         }
 
-        public static DependencyProperty MinUnitWidthProperty = DependencyProperty.Register("MinUnitWidth",
-            typeof(double), typeof(StackBarControl));
-
-        public double MinUnitWidth
+        protected override Size MeasureOverride(Size constraint)
         {
-            get { return (double)GetValue(MinUnitWidthProperty); }
-            set { SetValue(MinUnitWidthProperty, value); }
+            SetScale();
+            return base.MeasureOverride(constraint);
         }
 
         private void SetScaleByUnitValue()
         {
             double minValue = double.MaxValue;
-            
+
             if (ItemsSource == null)
                 return;
             foreach (object item in ItemsSource)
@@ -165,6 +142,24 @@ namespace StackBarTest2
             }
 
             Scale = MinUnitWidth / minValue;
+        }
+
+        public static DependencyProperty MinUnitWidthProperty = DependencyProperty.Register("MinUnitWidth",
+            typeof(double), typeof(StackBarControl));
+
+        public double MinUnitWidth
+        {
+            get { return (double)GetValue(MinUnitWidthProperty); }
+            set { SetValue(MinUnitWidthProperty, value); }
+        }
+
+        public static DependencyProperty BarHeightProperty = DependencyProperty.Register("BarHeight",
+            typeof(double), typeof(StackBarControl));
+
+        public double BarHeight
+        {
+            get { return (double)GetValue(BarHeightProperty); }
+            set { SetValue(BarHeightProperty, value); }
         }
     }
 }
