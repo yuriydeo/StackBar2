@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace StackBarTest2
 {
@@ -83,10 +84,29 @@ namespace StackBarTest2
             SetScale();
         }
 
+        private ScrollViewer _barScroll;
+        private ScrollViewer _headerScroll;
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            SetScale();
+
+            Dispatcher.InvokeAsync(BindHeaders, DispatcherPriority.Background);
+        }
+
+        private void BindHeaders()
+        {
+            var test = this.VisualChildrenCount;
+            Border border = this.GetVisualChild(0) as Border;
+            _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
+            _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
+            
+            _headerScroll.ScrollChanged += OnScrollChanged;
+            _barScroll.ScrollChanged += OnScrollChanged;
+
+            Binding binding = new Binding("ViewportHeight");
+            binding.Source = _barScroll;
+            BindingOperations.SetBinding(_headerScroll, HeightProperty, binding);
         }
 
         private void SetScale()
@@ -112,10 +132,14 @@ namespace StackBarTest2
                 if (barValue > maxValue)
                     maxValue = barValue;
             }
-            
-            Border border = this.GetVisualChild(0) as Border;
-            ListBox header = border?.FindName("HeaderContainerListBox") as ListBox;
-            double headerWidth = header?.ActualWidth ?? 0;
+
+            if (_headerScroll == null)
+            {
+                Border border = this.GetVisualChild(0) as Border;
+                _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
+            }
+
+            double headerWidth = _headerScroll?.ActualWidth ?? 0;
             Scale = (ActualWidth - headerWidth) / maxValue;
         }
 
@@ -167,6 +191,25 @@ namespace StackBarTest2
         {
             get { return (double)GetValue(RowHeightProperty); }
             set { SetValue(RowHeightProperty, value); }
+        }
+
+        private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
+
+            if (sender == _headerScroll)
+            {
+                _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
+            }
+            else
+            {
+                _headerScroll.ScrollToVerticalOffset(e.VerticalOffset);
+            }
+        }
+
+        private void KillMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

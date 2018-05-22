@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StackBarTest2"
         xmlns:converters="clr-namespace:StackBarTest2.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="300" Width="500">
     <Window.Resources>
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
@@ -14,7 +14,7 @@
         <local:StackBarControl ItemsSource="{Binding Floors}"
                                CellValueField="Area"
                                RowItemsSourceField="Rooms"
-                               MinCellWidth="0"
+                               MinCellWidth="40"
                                RowHeight="100">
 
             <local:StackBarControl.HeaderTemplate>
