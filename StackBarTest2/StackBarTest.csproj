@@ -57,11 +57,9 @@
     <Compile Include="Converters\LegendValueColorConverter.cs" />
     <Compile Include="Converters\ValueScaleConverter.cs" />
     <Compile Include="Model Classes.cs" />
-    <Compile Include="Converters\ProportionalValueWidthConverter.cs" />
-    <Compile Include="Converters\ProportionalValueWidthWithHeaderConverter.cs" />
-    <Compile Include="StackBarChildItemControl.cs" />
+    <Compile Include="StackBarCellControl.cs" />
     <Compile Include="StackBarControl.cs" />
-    <Compile Include="StackBarParentItemControl.cs" />
+    <Compile Include="StackBarRowControl.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

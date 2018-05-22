@@ -12,10 +12,10 @@
     </Window.Resources>
     <Grid>
         <local:StackBarControl ItemsSource="{Binding Floors}"
-                               UnitValueField="Area"
-                               BarItemsSourceField="Rooms"
-                               MinUnitWidth="0"
-                               BarHeight="100">
+                               CellValueField="Area"
+                               RowItemsSourceField="Rooms"
+                               MinCellWidth="0"
+                               RowHeight="100">
 
             <local:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:Floor">
@@ -28,7 +28,7 @@
                 </DataTemplate>
             </local:StackBarControl.HeaderTemplate>
 
-            <local:StackBarControl.UnitTemplate>
+            <local:StackBarControl.CellTemplate>
                 <DataTemplate DataType="local:Room">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
@@ -48,7 +48,7 @@
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </local:StackBarControl.UnitTemplate>
+            </local:StackBarControl.CellTemplate>
         </local:StackBarControl>
     </Grid>
 </Window>

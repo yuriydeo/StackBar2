@@ -23,22 +23,22 @@ namespace StackBarTest2
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
         }
 
-        public static DependencyProperty UnitValueFieldProperty = DependencyProperty.Register("UnitValueField",
+        public static DependencyProperty CellValueFieldProperty = DependencyProperty.Register("CellValueField",
             typeof(string), typeof(StackBarControl));
 
-        public string UnitValueField
+        public string CellValueField
         {
-            get { return (string)GetValue(UnitValueFieldProperty); }
-            set { SetValue(UnitValueFieldProperty, value); }
+            get { return (string)GetValue(CellValueFieldProperty); }
+            set { SetValue(CellValueFieldProperty, value); }
         }
 
-        public static readonly DependencyProperty UnitTemplateProperty = DependencyProperty.Register(
-            "UnitTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
+        public static readonly DependencyProperty CellTemplateProperty = DependencyProperty.Register(
+            "CellTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
 
-        public DataTemplate UnitTemplate
+        public DataTemplate CellTemplate
         {
-            get { return (DataTemplate)GetValue(UnitTemplateProperty); }
-            set { SetValue(UnitTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(CellTemplateProperty); }
+            set { SetValue(CellTemplateProperty, value); }
         }
 
         public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(
@@ -50,13 +50,13 @@ namespace StackBarTest2
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
-        public static DependencyProperty BarItemsSourceFieldProperty = DependencyProperty.Register("BarItemsSourceField",
+        public static DependencyProperty RowItemsSourceFieldProperty = DependencyProperty.Register("RowItemsSourceField",
             typeof(string), typeof(StackBarControl));
 
-        public string BarItemsSourceField
+        public string RowItemsSourceField
         {
-            get { return (string)GetValue(BarItemsSourceFieldProperty); }
-            set { SetValue(BarItemsSourceFieldProperty, value); }
+            get { return (string)GetValue(RowItemsSourceFieldProperty); }
+            set { SetValue(RowItemsSourceFieldProperty, value); }
         }
 
         private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("Scale",
@@ -91,8 +91,8 @@ namespace StackBarTest2
 
         private void SetScale()
         {
-            if (MinUnitWidth > 0)
-                SetScaleByUnitValue();
+            if (MinCellWidth > 0)
+                SetScaleByCellValue();
             else
                 SetScaleByWidth();
         }
@@ -105,9 +105,9 @@ namespace StackBarTest2
             foreach (object item in ItemsSource)
             {
                 barValue = 0;
-                foreach (object unit in (IEnumerable)item.GetType().GetProperty(BarItemsSourceField).GetValue(item))
+                foreach (object cell in (IEnumerable)item.GetType().GetProperty(RowItemsSourceField).GetValue(item))
                 {
-                    barValue += (double)unit.GetType().GetProperty(UnitValueField).GetValue(unit);
+                    barValue += (double)cell.GetType().GetProperty(CellValueField).GetValue(cell);
                 }
                 if (barValue > maxValue)
                     maxValue = barValue;
@@ -125,7 +125,7 @@ namespace StackBarTest2
             return base.MeasureOverride(constraint);
         }
 
-        private void SetScaleByUnitValue()
+        private void SetScaleByCellValue()
         {
             double minValue = double.MaxValue;
 
@@ -133,33 +133,40 @@ namespace StackBarTest2
                 return;
             foreach (object item in ItemsSource)
             {
-                foreach (object unit in (IEnumerable)item.GetType().GetProperty(BarItemsSourceField).GetValue(item))
+                foreach (object cell in (IEnumerable)item.GetType().GetProperty(RowItemsSourceField).GetValue(item))
                 {
-                    double unitValue = (double)unit.GetType().GetProperty(UnitValueField).GetValue(unit);
-                    if (unitValue < minValue)
-                        minValue = unitValue;
+                    double cellValue = (double)cell.GetType().GetProperty(CellValueField).GetValue(cell);
+                    if (cellValue < minValue)
+                        minValue = cellValue;
                 }
             }
 
-            Scale = MinUnitWidth / minValue;
+            Scale = MinCellWidth / minValue;
         }
 
-        public static DependencyProperty MinUnitWidthProperty = DependencyProperty.Register("MinUnitWidth",
-            typeof(double), typeof(StackBarControl));
+        public static DependencyProperty MinCellWidthProperty = DependencyProperty.Register("MinCellWidth",
+            typeof(double), typeof(StackBarControl), new PropertyMetadata(0.0, MinCellWidthPropertyChangedCallback));
 
-        public double MinUnitWidth
+        private static void MinCellWidthPropertyChangedCallback(DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
         {
-            get { return (double)GetValue(MinUnitWidthProperty); }
-            set { SetValue(MinUnitWidthProperty, value); }
+            var caller = (StackBarControl)d;
+            caller.SetScale();
         }
 
-        public static DependencyProperty BarHeightProperty = DependencyProperty.Register("BarHeight",
+        public double MinCellWidth
+        {
+            get { return (double)GetValue(MinCellWidthProperty); }
+            set { SetValue(MinCellWidthProperty, value); }
+        }
+
+        public static DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight",
             typeof(double), typeof(StackBarControl));
 
-        public double BarHeight
+        public double RowHeight
         {
-            get { return (double)GetValue(BarHeightProperty); }
-            set { SetValue(BarHeightProperty, value); }
+            get { return (double)GetValue(RowHeightProperty); }
+            set { SetValue(RowHeightProperty, value); }
         }
     }
 }

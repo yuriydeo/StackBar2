@@ -11,10 +11,6 @@ namespace StackBarTest2
 {
     public class Floor
     {
-        public string FullName
-        {
-            get { return this.ToString(); }
-        }
         public Floor(string name)
         {
             Name = name;
@@ -26,11 +22,6 @@ namespace StackBarTest2
         {
             get { return Rooms.Sum(x => x.Area); }
         }
-
-        //public double TrueArea
-        //{
-        //    get { return Rooms.Where(x => x.Type != UseType.Fake).Sum(x => x.Area); }
-        //}
     }
 
     public enum UseType
