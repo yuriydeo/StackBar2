@@ -24,6 +24,17 @@ namespace StackBarTest2
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
         }
 
+        public StackBarControl()
+        {
+            this.Loaded += OnLoad;
+        }
+
+        private static void OnLoad(object sender, RoutedEventArgs e)
+        {
+            StackBarControl stackBar = (StackBarControl)sender;
+            stackBar.BindHeaders();
+        }
+
         public static DependencyProperty CellValueFieldProperty = DependencyProperty.Register("CellValueField",
             typeof(string), typeof(StackBarControl));
 
@@ -87,16 +98,8 @@ namespace StackBarTest2
         private ScrollViewer _barScroll;
         private ScrollViewer _headerScroll;
 
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-
-            Dispatcher.InvokeAsync(BindHeaders, DispatcherPriority.Background);
-        }
-
         private void BindHeaders()
         {
-            var test = this.VisualChildrenCount;
             Border border = this.GetVisualChild(0) as Border;
             _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
             _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
@@ -205,11 +208,6 @@ namespace StackBarTest2
             {
                 _headerScroll.ScrollToVerticalOffset(e.VerticalOffset);
             }
-        }
-
-        private void KillMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            e.Handled = true;
         }
     }
 }
