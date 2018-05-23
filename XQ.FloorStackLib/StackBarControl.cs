@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace StackBarTest2
+namespace XQ.FloorStackLib
 {
     public class StackBarControl : ItemsControl
     {

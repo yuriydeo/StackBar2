@@ -1,8 +1,8 @@
-<ResourceDictionary
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:StackBarTest2"
-    xmlns:converters="clr-namespace:StackBarTest2.Converters">
+    xmlns:local="clr-namespace:XQ.FloorStackLib"
+    xmlns:converters="clr-namespace:XQ.FloorStackLib.Converters">
     <converters:ValueScaleConverter x:Key="valueScaleConverter" />
 
     <Style TargetType="{x:Type local:StackBarControl}">
@@ -13,8 +13,8 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             VerticalAlignment="Top">
-                        
-                            <DockPanel LastChildFill="True" VerticalAlignment="Stretch">
+
+                        <DockPanel LastChildFill="True" VerticalAlignment="Stretch">
                             <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
                                           VerticalScrollBarVisibility="Auto" 
                                           Name="HeaderScrollViewer" 
@@ -58,37 +58,37 @@
                                 <ListBox Name="BarContainerListBox" 
                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                      HorizontalAlignment="Stretch">
-                                <ListBox.Template>
-                                    <ControlTemplate>
-                                        <ItemsPresenter />
-                                    </ControlTemplate>
-                                </ListBox.Template>
+                                    <ListBox.Template>
+                                        <ControlTemplate>
+                                            <ItemsPresenter />
+                                        </ControlTemplate>
+                                    </ListBox.Template>
 
                                     <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="Margin" Value="0"/>
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                                <Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <local:StackBarRowControl RowItemsSourceField="{Binding RowItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <local:StackBarRowControl RowItemsSourceField="{Binding RowItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                          HorizontalAlignment="Stretch">
 
-                                                </local:StackBarRowControl>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical"></StackPanel>
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                    </ListBox>
+                                            </local:StackBarRowControl>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
                             </ScrollViewer>
                         </DockPanel>
-                        
+
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

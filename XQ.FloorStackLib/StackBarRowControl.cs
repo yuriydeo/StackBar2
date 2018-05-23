@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StackBarTest2
+namespace XQ.FloorStackLib
 {
     public class StackBarRowControl : ItemsControl
     {

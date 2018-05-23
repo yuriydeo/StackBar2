@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StackBarTest2"
         xmlns:converters="clr-namespace:StackBarTest2.Converters"
+        xmlns:floorStackLib="clr-namespace:XQ.FloorStackLib;assembly=XQ.FloorStackLib"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500">
     <Window.Resources>
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
-        <local:StackBarControl ItemsSource="{Binding Floors}"
+        <floorStackLib:StackBarControl ItemsSource="{Binding Floors}"
                                CellValueField="Area"
                                RowItemsSourceField="Rooms"
                                MinCellWidth="40"
                                RowHeight="100">
 
-            <local:StackBarControl.HeaderTemplate>
+            <floorStackLib:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:Floor">
                     <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
                         <StackPanel Orientation="Vertical" Background="Beige">
@@ -26,9 +27,9 @@
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </local:StackBarControl.HeaderTemplate>
+            </floorStackLib:StackBarControl.HeaderTemplate>
 
-            <local:StackBarControl.CellTemplate>
+            <floorStackLib:StackBarControl.CellTemplate>
                 <DataTemplate DataType="local:Room">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
@@ -48,7 +49,10 @@
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </local:StackBarControl.CellTemplate>
-        </local:StackBarControl>
+            </floorStackLib:StackBarControl.CellTemplate>
+        </floorStackLib:StackBarControl>
     </Grid>
 </Window>
+
+
+

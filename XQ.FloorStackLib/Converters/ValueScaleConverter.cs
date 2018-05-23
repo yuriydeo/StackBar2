@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace StackBarTest2.Converters
+namespace XQ.FloorStackLib.Converters
 {
     public class ValueScaleConverter : IMultiValueConverter
     {
