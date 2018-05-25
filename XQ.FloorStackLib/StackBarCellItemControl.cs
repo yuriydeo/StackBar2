@@ -23,20 +23,20 @@ namespace XQ.FloorStackLib
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarCellItemControl), new FrameworkPropertyMetadata(typeof(StackBarCellItemControl)));
         }
 
-        public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarCellItemControl), 
-            new PropertyMetadata(null, ValueFieldNamePropertyChangedCallback));
+        //public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarCellItemControl), 
+        //    new PropertyMetadata(null, ValueFieldNamePropertyChangedCallback));
 
-        private static void ValueFieldNamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var caller = (StackBarCellItemControl) d;
-            caller.SetBinding(CellValueProperty, new Binding(caller.ValueFieldName));
-        }
+        //private static void ValueFieldNamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var caller = (StackBarCellItemControl) d;
+        //    caller.SetBinding(CellValueProperty, new Binding(caller.ValueFieldName));
+        //}
 
-        public string ValueFieldName
-        {
-            get { return (string)GetValue(ValueFieldNameProperty); }
-            set { SetValue(ValueFieldNameProperty, value); }
-        }
+        //public string ValueFieldName
+        //{
+        //    get { return (string)GetValue(ValueFieldNameProperty); }
+        //    set { SetValue(ValueFieldNameProperty, value); }
+        //}
 
         public static DependencyProperty CellValueProperty = DependencyProperty.Register("CellValue",
             typeof(double), typeof(StackBarCellItemControl));
@@ -45,6 +45,22 @@ namespace XQ.FloorStackLib
         {
             get { return (double)GetValue(CellValueProperty); }
             set { SetValue(CellValueProperty, value); }
+        }
+
+        public static DependencyProperty ValueBindingProperty = DependencyProperty.Register("ValueBinding",
+            typeof(Binding), typeof(StackBarCellItemControl),
+            new PropertyMetadata(null, ValueBindingPropertyChangedCallback));
+
+        private static void ValueBindingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var caller = (StackBarCellItemControl)d;
+            caller.SetBinding(CellValueProperty, caller.ValueBinding);
+        }
+
+        public Binding ValueBinding
+        {
+            get { return (Binding)GetValue(ValueBindingProperty); }
+            set { SetValue(ValueBindingProperty, value); }
         }
     }
 }

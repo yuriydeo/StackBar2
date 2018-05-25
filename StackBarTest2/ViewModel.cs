@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace StackBarTest2
@@ -13,6 +14,7 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
+            CellBinding = new Binding("Area");
         }
 
         private void PopulateData()
@@ -41,5 +43,7 @@ namespace StackBarTest2
 
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors { get { return _floors; } }
+
+        public Binding CellBinding { get; set; }
     }
 }

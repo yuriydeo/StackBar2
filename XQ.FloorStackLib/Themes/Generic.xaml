@@ -119,7 +119,7 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <local:StackBarCellItemControl  ValueFieldName="{Binding CellValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                    <local:StackBarCellItemControl  ValueBinding="{Binding CellValueBinding, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                         Content="{Binding}"
                                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                                         <local:StackBarCellItemControl.Width>

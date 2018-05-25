@@ -35,13 +35,13 @@ namespace XQ.FloorStackLib
             stackBar.BindHeaders();
         }
 
-        public static DependencyProperty CellValueFieldProperty = DependencyProperty.Register("CellValueField",
-            typeof(string), typeof(StackBarControl));
+        public static DependencyProperty CellValueBindingProperty = DependencyProperty.Register("CellValueBinding",
+            typeof(Binding), typeof(StackBarControl));
 
-        public string CellValueField
+        public Binding CellValueBinding
         {
-            get { return (string)GetValue(CellValueFieldProperty); }
-            set { SetValue(CellValueFieldProperty, value); }
+            get { return (Binding)GetValue(CellValueBindingProperty); }
+            set { SetValue(CellValueBindingProperty, value); }
         }
 
         public static readonly DependencyProperty CellTemplateProperty = DependencyProperty.Register(
@@ -126,7 +126,8 @@ namespace XQ.FloorStackLib
                 barValue = 0;
                 foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
                 {
-                    barValue += Convert.ToDouble(GetValueByPath(cell, CellValueField));
+                    if (CellValueBinding != null)
+                        barValue += Convert.ToDouble(GetValueByPath(cell, CellValueBinding.Path.Path));
                 }
                 if (barValue > maxValue)
                     maxValue = barValue;
@@ -170,9 +171,12 @@ namespace XQ.FloorStackLib
             {
                 foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
                 {
-                    double cellValue = Convert.ToDouble(GetValueByPath(cell, CellValueField));
-                    if (cellValue < minValue)
-                        minValue = cellValue;
+                    if (CellValueBinding != null)
+                    {
+                        double cellValue = Convert.ToDouble(GetValueByPath(cell, CellValueBinding.Path.Path));
+                        if (cellValue < minValue)
+                            minValue = cellValue;
+                    }
                 }
             }
 
