@@ -15,7 +15,7 @@
         <floorStackLib:StackBarControl ItemsSource="{Binding Floors}"
                                CellValueField="Area"
                                RowItemsSourceField="Rooms"
-                               MinCellWidth="40"
+                               MinCellWidth="0"
                                RowHeight="100">
 
             <floorStackLib:StackBarControl.HeaderTemplate>

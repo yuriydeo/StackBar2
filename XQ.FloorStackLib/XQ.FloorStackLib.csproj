@@ -67,9 +67,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StackBarCellControl.cs" />
+    <Compile Include="StackBarCellItemControl.cs" />
     <Compile Include="StackBarControl.cs" />
-    <Compile Include="StackBarRowControl.cs" />
+    <Compile Include="StackBarRowItemControl.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

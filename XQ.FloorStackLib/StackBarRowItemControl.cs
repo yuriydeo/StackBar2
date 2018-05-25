@@ -18,20 +18,20 @@ using System.Windows.Shapes;
 
 namespace XQ.FloorStackLib
 {
-    public class StackBarRowControl : ItemsControl
+    public class StackBarRowItemControl : ItemsControl
     {
-        static StackBarRowControl()
+        static StackBarRowItemControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarRowControl),
-                new FrameworkPropertyMetadata(typeof(StackBarRowControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarRowItemControl),
+                new FrameworkPropertyMetadata(typeof(StackBarRowItemControl)));
         }
 
         public static DependencyProperty RowItemsSourceFieldProperty = DependencyProperty.Register("RowItemsSourceField",
-            typeof(string), typeof(StackBarRowControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
+            typeof(string), typeof(StackBarRowItemControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
 
         private static void BarItemsSourceFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var caller = (StackBarRowControl)d;
+            var caller = (StackBarRowItemControl)d;
             caller.SetBinding(ItemsSourceProperty, new Binding(caller.RowItemsSourceField));
         }
 

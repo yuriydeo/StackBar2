@@ -16,19 +16,19 @@ using System.Windows.Navigation;
 
 namespace XQ.FloorStackLib
 {
-    public class StackBarCellControl : ContentControl
+    public class StackBarCellItemControl : ContentControl
     {
-        static StackBarCellControl()
+        static StackBarCellItemControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarCellControl), new FrameworkPropertyMetadata(typeof(StackBarCellControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarCellItemControl), new FrameworkPropertyMetadata(typeof(StackBarCellItemControl)));
         }
 
-        public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarCellControl), 
+        public static DependencyProperty ValueFieldNameProperty = DependencyProperty.Register("ValueFieldName", typeof(string), typeof(StackBarCellItemControl), 
             new PropertyMetadata(null, ValueFieldNamePropertyChangedCallback));
 
         private static void ValueFieldNamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var caller = (StackBarCellControl) d;
+            var caller = (StackBarCellItemControl) d;
             caller.SetBinding(CellValueProperty, new Binding(caller.ValueFieldName));
         }
 
@@ -39,7 +39,7 @@ namespace XQ.FloorStackLib
         }
 
         public static DependencyProperty CellValueProperty = DependencyProperty.Register("CellValue",
-            typeof(double), typeof(StackBarCellControl));
+            typeof(double), typeof(StackBarCellItemControl));
 
         public double CellValue
         {

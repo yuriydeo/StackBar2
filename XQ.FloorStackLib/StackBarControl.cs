@@ -106,10 +106,6 @@ namespace XQ.FloorStackLib
             
             _headerScroll.ScrollChanged += OnScrollChanged;
             _barScroll.ScrollChanged += OnScrollChanged;
-
-            Binding binding = new Binding("ViewportHeight");
-            binding.Source = _barScroll;
-            BindingOperations.SetBinding(_headerScroll, HeightProperty, binding);
         }
 
         private void SetScale()
@@ -128,9 +124,9 @@ namespace XQ.FloorStackLib
             foreach (object item in ItemsSource)
             {
                 barValue = 0;
-                foreach (object cell in (IEnumerable)item.GetType().GetProperty(RowItemsSourceField).GetValue(item))
+                foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
                 {
-                    barValue += (double)cell.GetType().GetProperty(CellValueField).GetValue(cell);
+                    barValue += Convert.ToDouble(GetValueByPath(cell, CellValueField));
                 }
                 if (barValue > maxValue)
                     maxValue = barValue;
@@ -144,6 +140,18 @@ namespace XQ.FloorStackLib
 
             double headerWidth = _headerScroll?.ActualWidth ?? 0;
             Scale = (ActualWidth - headerWidth) / maxValue;
+        }
+
+        private static object GetValueByPath(object obj, string fieldPath)
+        {
+            object result = obj;
+            string[] filedPathParts = fieldPath.Split('.');
+            foreach (string part in filedPathParts)
+            {
+                result = result.GetType().GetProperty(part).GetValue(result);
+            }
+
+            return result;
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -160,9 +168,9 @@ namespace XQ.FloorStackLib
                 return;
             foreach (object item in ItemsSource)
             {
-                foreach (object cell in (IEnumerable)item.GetType().GetProperty(RowItemsSourceField).GetValue(item))
+                foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
                 {
-                    double cellValue = (double)cell.GetType().GetProperty(CellValueField).GetValue(cell);
+                    double cellValue = Convert.ToDouble(GetValueByPath(cell, CellValueField));
                     if (cellValue < minValue)
                         minValue = cellValue;
                 }

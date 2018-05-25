@@ -20,7 +20,8 @@
                                           Name="HeaderScrollViewer" 
                                           FlowDirection="RightToLeft"
                                           DockPanel.Dock="Left"
-                                          VerticalAlignment="Top">
+                                          VerticalAlignment="Top"
+                                          Height="{Binding ElementName=BarScrollViewer, Path=ViewportHeight}">
                                 <ListBox Name="HeaderContainerListBox" 
                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                          VerticalAlignment="Stretch">
@@ -74,10 +75,10 @@
                                     </ListBox.ItemContainerStyle>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <local:StackBarRowControl RowItemsSourceField="{Binding RowItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                            <local:StackBarRowItemControl RowItemsSourceField="{Binding RowItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                          HorizontalAlignment="Stretch">
 
-                                            </local:StackBarRowControl>
+                                            </local:StackBarRowItemControl>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                     <ListBox.ItemsPanel>
@@ -95,15 +96,15 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:StackBarRowControl}">
+    <Style TargetType="{x:Type local:StackBarRowItemControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:StackBarRowControl}">
+                <ControlTemplate TargetType="{x:Type local:StackBarRowItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
 
-                        <ListBox   ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowControl}}">
+                        <ListBox   ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                             <ListBox.Template>
                                 <ControlTemplate>
                                     <ItemsPresenter />
@@ -118,16 +119,16 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <local:StackBarCellControl  ValueFieldName="{Binding CellValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                    <local:StackBarCellItemControl  ValueFieldName="{Binding CellValueField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                         Content="{Binding}"
                                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                        <local:StackBarCellControl.Width>
+                                        <local:StackBarCellItemControl.Width>
                                             <MultiBinding Converter="{StaticResource valueScaleConverter}">
                                                 <Binding Path="CellValue" RelativeSource="{RelativeSource Self}"></Binding>
                                                 <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
                                             </MultiBinding>
-                                        </local:StackBarCellControl.Width>
-                                    </local:StackBarCellControl>
+                                        </local:StackBarCellItemControl.Width>
+                                    </local:StackBarCellItemControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -142,10 +143,10 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:StackBarCellControl}">
+    <Style TargetType="{x:Type local:StackBarCellItemControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:StackBarCellControl}">
+                <ControlTemplate TargetType="{x:Type local:StackBarCellItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
