@@ -75,7 +75,7 @@
                                     </ListBox.ItemContainerStyle>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <local:StackBarRowItemControl RowItemsSourceField="{Binding RowItemsSourceField, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                            <local:StackBarRowItemControl ItemsSource="{Binding RowsData, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                          HorizontalAlignment="Stretch">
 
                                             </local:StackBarRowItemControl>

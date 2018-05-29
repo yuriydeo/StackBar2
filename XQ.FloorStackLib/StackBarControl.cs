@@ -110,10 +110,11 @@ namespace XQ.FloorStackLib
 
         private void SetScale()
         {
-            if (MinCellWidth > 0)
-                SetScaleByCellValue();
-            else
-                SetScaleByWidth();
+            //if (MinCellWidth > 0)
+            //    SetScaleByCellValue();
+            //else
+            //    SetScaleByWidth();
+            Scale = 1;
         }
         private void SetScaleByWidth()
         {

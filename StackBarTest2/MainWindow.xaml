@@ -12,25 +12,23 @@
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
-        <floorStackLib:StackBarControl ItemsSource="{Binding Floors}"
-                               CellValueBinding="{Binding CellBinding}"
-                               RowItemsSourceField="Rooms"
-                               MinCellWidth="40"
+        <floorStackLib:StackBarControl DataContext="{Binding FloorsViewCollection}"
+            ItemsSource="{Binding RowsData}"
+                               MinCellWidth="0"
                                RowHeight="100">
 
             <floorStackLib:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:Floor">
                     <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
                         <StackPanel Orientation="Vertical" Background="Beige">
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
+                            <TextBlock Text="Placeholder" TextWrapping="Wrap" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </floorStackLib:StackBarControl.HeaderTemplate>
 
-            <floorStackLib:StackBarControl.CellTemplate>
-                <DataTemplate DataType="local:Room">
+            <floorStackLib:StackBarControl.CellTemplate >
+                <DataTemplate DataType="local:RoomCellModel">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
                             <StackPanel.Background>
@@ -38,14 +36,14 @@
                                     <SolidColorBrush.Color>
                                         <MultiBinding Converter="{StaticResource LegendConverter}">
                                             <Binding Path="DataContext.LegendDictionary" RelativeSource="{RelativeSource AncestorType=Window}" />
-                                            <Binding Path="Type" />
+                                            <Binding Path="DataObject.Type" />
                                         </MultiBinding>
                                     </SolidColorBrush.Color>
                                 </SolidColorBrush>
                             </StackPanel.Background>
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding Type}" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding Area}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Type}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

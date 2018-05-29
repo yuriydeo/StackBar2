@@ -70,6 +70,7 @@
     <Compile Include="StackBarCellItemControl.cs" />
     <Compile Include="StackBarControl.cs" />
     <Compile Include="StackBarRowItemControl.cs" />
+    <Compile Include="ViewModels\StackBarViewModelBase.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
