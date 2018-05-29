@@ -2,10 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:XQ.FloorStackLib"
+    xmlns:viewModels="clr-namespace:XQ.FloorStackLib.ViewModels"
     xmlns:converters="clr-namespace:XQ.FloorStackLib.Converters">
     <converters:ValueScaleConverter x:Key="valueScaleConverter" />
 
     <Style TargetType="{x:Type local:StackBarControl}">
+        <Setter Property="DataContext" Value="viewModelsStackBarViewModelBase"/>
+        <Setter Property="ItemsSource" Value="{Binding RowsData}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarControl}">
@@ -75,7 +78,7 @@
                                     </ListBox.ItemContainerStyle>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <local:StackBarRowItemControl ItemsSource="{Binding RowsData, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                            <local:StackBarRowItemControl ItemsSource="{Binding Cells}"
                                                                          HorizontalAlignment="Stretch">
 
                                             </local:StackBarRowItemControl>
@@ -119,16 +122,16 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <local:StackBarCellItemControl  ValueBinding="{Binding CellValueBinding, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                    <ContentControl  
                                                                         Content="{Binding}"
                                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                        <local:StackBarCellItemControl.Width>
+                                        <ContentControl.Width>
                                             <MultiBinding Converter="{StaticResource valueScaleConverter}">
-                                                <Binding Path="CellValue" RelativeSource="{RelativeSource Self}"></Binding>
+                                                <Binding Path="Value" ></Binding>
                                                 <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
                                             </MultiBinding>
-                                        </local:StackBarCellItemControl.Width>
-                                    </local:StackBarCellItemControl>
+                                        </ContentControl.Width>
+                                    </ContentControl>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -143,7 +146,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:StackBarCellItemControl}">
+    <!--<Style TargetType="{x:Type local:StackBarCellItemControl}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarCellItemControl}">
@@ -155,5 +158,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 </ResourceDictionary>

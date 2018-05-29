@@ -38,29 +38,29 @@ namespace XQ.FloorStackLib
         //    set { SetValue(ValueFieldNameProperty, value); }
         //}
 
-        public static DependencyProperty CellValueProperty = DependencyProperty.Register("CellValue",
-            typeof(double), typeof(StackBarCellItemControl));
+        //public static DependencyProperty CellValueProperty = DependencyProperty.Register("CellValue",
+        //    typeof(double), typeof(StackBarCellItemControl));
 
-        public double CellValue
-        {
-            get { return (double)GetValue(CellValueProperty); }
-            set { SetValue(CellValueProperty, value); }
-        }
+        //public double CellValue
+        //{
+        //    get { return (double)GetValue(CellValueProperty); }
+        //    set { SetValue(CellValueProperty, value); }
+        //}
 
-        public static DependencyProperty ValueBindingProperty = DependencyProperty.Register("ValueBinding",
-            typeof(Binding), typeof(StackBarCellItemControl),
-            new PropertyMetadata(null, ValueBindingPropertyChangedCallback));
+        //public static DependencyProperty ValueBindingProperty = DependencyProperty.Register("ValueBinding",
+        //    typeof(Binding), typeof(StackBarCellItemControl),
+        //    new PropertyMetadata(null, ValueBindingPropertyChangedCallback));
 
-        private static void ValueBindingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var caller = (StackBarCellItemControl)d;
-            caller.SetBinding(CellValueProperty, caller.ValueBinding);
-        }
+        //private static void ValueBindingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var caller = (StackBarCellItemControl)d;
+        //    caller.SetBinding(CellValueProperty, caller.ValueBinding);
+        //}
 
-        public Binding ValueBinding
-        {
-            get { return (Binding)GetValue(ValueBindingProperty); }
-            set { SetValue(ValueBindingProperty, value); }
-        }
+        //public Binding ValueBinding
+        //{
+        //    get { return (Binding)GetValue(ValueBindingProperty); }
+        //    set { SetValue(ValueBindingProperty, value); }
+        //}
     }
 }

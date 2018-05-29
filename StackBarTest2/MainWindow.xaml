@@ -13,15 +13,15 @@
     </Window.Resources>
     <Grid>
         <floorStackLib:StackBarControl DataContext="{Binding FloorsViewCollection}"
-            ItemsSource="{Binding RowsData}"
                                MinCellWidth="0"
                                RowHeight="100">
 
             <floorStackLib:StackBarControl.HeaderTemplate>
-                <DataTemplate DataType="local:Floor">
+                <DataTemplate DataType="local:FloorRowModel">
                     <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
                         <StackPanel Orientation="Vertical" Background="Beige">
-                            <TextBlock Text="Placeholder" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

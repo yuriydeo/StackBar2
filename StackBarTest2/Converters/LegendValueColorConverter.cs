@@ -15,7 +15,7 @@ namespace StackBarTest2.Converters
         {
             var legend = (Dictionary<string, Color>)values[0];
             var value = values[1].ToString();
-            return legend.ContainsKey(value) ? legend[value] : throw new ArgumentException("Value not found in Legend");
+            return legend.ContainsKey(value) ? legend[value] : Colors.AliceBlue; //throw new ArgumentException("Value not found in Legend");
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

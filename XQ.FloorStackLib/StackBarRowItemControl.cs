@@ -26,19 +26,19 @@ namespace XQ.FloorStackLib
                 new FrameworkPropertyMetadata(typeof(StackBarRowItemControl)));
         }
 
-        public static DependencyProperty RowItemsSourceFieldProperty = DependencyProperty.Register("RowItemsSourceField",
-            typeof(string), typeof(StackBarRowItemControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
+        //public static DependencyProperty RowItemsSourceFieldProperty = DependencyProperty.Register("RowItemsSourceField",
+        //    typeof(string), typeof(StackBarRowItemControl), new PropertyMetadata(null, BarItemsSourceFieldPropertyChangedCallback));
 
-        private static void BarItemsSourceFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var caller = (StackBarRowItemControl)d;
-            caller.SetBinding(ItemsSourceProperty, new Binding(caller.RowItemsSourceField));
-        }
+        //private static void BarItemsSourceFieldPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var caller = (StackBarRowItemControl)d;
+        //    caller.SetBinding(ItemsSourceProperty, new Binding(caller.RowItemsSourceField));
+        //}
 
-        public string RowItemsSourceField
-        {
-            get => (string)GetValue(RowItemsSourceFieldProperty);
-            set => SetValue(RowItemsSourceFieldProperty, value);
-        }
+        //public string RowItemsSourceField
+        //{
+        //    get => (string)GetValue(RowItemsSourceFieldProperty);
+        //    set => SetValue(RowItemsSourceFieldProperty, value);
+        //}
     }
 }
