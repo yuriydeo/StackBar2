@@ -17,7 +17,11 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
-            FloorsViewCollection = new FloorStackBarData(Floors);
+            FloorsCollection = new ObservableCollection<IRowViewModel>();
+            foreach (Floor floor in Floors)
+            {
+                FloorsCollection.Add(new FloorRowModel(floor));
+            }
         }
 
         private void PopulateData()
@@ -49,25 +53,32 @@ namespace StackBarTest2
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors => _floors;
 
-        public FloorStackBarData FloorsViewCollection { get; set; } 
+       
+        public ObservableCollection<IRowViewModel> FloorsCollection { get; set; }
     }
 
-    public class RoomCellModel : StackBarCellViewModelBase<Room>
+    public class RoomCellModel : ICellViewModel
     {
-        public RoomCellModel(Room room) : base(room)
+        public RoomCellModel(Room room)
         {
+            DataObject = room;
         }
 
-        public override double Value => DataObject.Area;
+        public Room DataObject { get; }
+
+        public double Value => DataObject.Area;
     }
 
-    public class FloorRowModel :StackBarRowDataModel<Floor>
+    public class FloorRowModel : IRowViewModel
     {
-        public FloorRowModel(Floor floor) : base(floor)
+        public FloorRowModel(Floor floor)
         {
+            DataObject = floor;
         }
-        
-        public override ObservableCollection<ICellViewModel> Cells
+
+        public Floor DataObject { get; }
+
+        public ObservableCollection<ICellViewModel> Cells
         {
             get
             {
@@ -78,25 +89,6 @@ namespace StackBarTest2
                 }
                 return new ObservableCollection<ICellViewModel>(rooms);
             }
-        }
-    }
-
-    public class FloorStackBarData : StackBarViewModelBase
-    {
-        public FloorStackBarData(ObservableCollection<Floor> floors) : base(ConstructCollection(floors))
-        {
-        }
-
-        private static ObservableCollection<IRowViewModel> ConstructCollection(ObservableCollection<Floor> floors)
-        {
-            ObservableCollection<IRowViewModel> result = new ObservableCollection<IRowViewModel>();
-            foreach (Floor floor in floors)
-            {
-                ObservableCollection<ICellViewModel> roomsCollection =  new ObservableCollection<ICellViewModel>();
-                result.Add(new FloorRowModel(floor));
-            }
-
-            return result;
         }
     }
 }

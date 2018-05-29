@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using XQ.FloorStackLib.ViewModels;
 
 namespace XQ.FloorStackLib
 {
@@ -85,6 +87,8 @@ namespace XQ.FloorStackLib
 
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
         {
+            if (!(newValue is ObservableCollection<IRowViewModel>))
+                throw new ArgumentException("StackBarControl expects ObservableCollection which implements IRowViewModel");
             base.OnItemsSourceChanged(oldValue, newValue);
             SetScale();
         }
@@ -110,50 +114,21 @@ namespace XQ.FloorStackLib
 
         private void SetScale()
         {
-            //if (MinCellWidth > 0)
-            //    SetScaleByCellValue();
-            //else
-            //    SetScaleByWidth();
-            Scale = 1;
+            if (MinCellWidth > 0)
+                SetScaleByCellValue();
+            else
+                SetScaleByWidth();
         }
         private void SetScaleByWidth()
         {
-            double maxValue = 0;
-            double barValue = 0;
             if (ItemsSource == null)
                 return;
-            foreach (object item in ItemsSource)
-            {
-                barValue = 0;
-                foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
-                {
-                    if (CellValueBinding != null)
-                        barValue += Convert.ToDouble(GetValueByPath(cell, CellValueBinding.Path.Path));
-                }
-                if (barValue > maxValue)
-                    maxValue = barValue;
-            }
 
-            if (_headerScroll == null)
-            {
-                Border border = this.GetVisualChild(0) as Border;
-                _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
-            }
+            ObservableCollection<IRowViewModel> rows = (ObservableCollection<IRowViewModel>)ItemsSource;
 
+            double maxValue = rows.Max(r => r.Cells.Sum(c => c.Value));
             double headerWidth = _headerScroll?.ActualWidth ?? 0;
             Scale = (ActualWidth - headerWidth) / maxValue;
-        }
-
-        private static object GetValueByPath(object obj, string fieldPath)
-        {
-            object result = obj;
-            string[] filedPathParts = fieldPath.Split('.');
-            foreach (string part in filedPathParts)
-            {
-                result = result.GetType().GetProperty(part).GetValue(result);
-            }
-
-            return result;
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -164,22 +139,11 @@ namespace XQ.FloorStackLib
 
         private void SetScaleByCellValue()
         {
-            double minValue = double.MaxValue;
-
             if (ItemsSource == null)
                 return;
-            foreach (object item in ItemsSource)
-            {
-                foreach (object cell in (IEnumerable)GetValueByPath(item, RowItemsSourceField))
-                {
-                    if (CellValueBinding != null)
-                    {
-                        double cellValue = Convert.ToDouble(GetValueByPath(cell, CellValueBinding.Path.Path));
-                        if (cellValue < minValue)
-                            minValue = cellValue;
-                    }
-                }
-            }
+
+            ObservableCollection<IRowViewModel> rows = (ObservableCollection<IRowViewModel>)ItemsSource;
+            double minValue = rows.Min(r => r.Cells.Min(c => c.Value));
 
             Scale = MinCellWidth / minValue;
         }

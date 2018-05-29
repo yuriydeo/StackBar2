@@ -12,7 +12,7 @@
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
     </Window.Resources>
     <Grid>
-        <floorStackLib:StackBarControl DataContext="{Binding FloorsViewCollection}"
+        <floorStackLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
                                MinCellWidth="0"
                                RowHeight="100">
 
