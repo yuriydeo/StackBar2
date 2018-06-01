@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using StackBarTest2;
-using XQ.FloorStackLib.ViewModels;
+using StackBarControlLib.ViewModelInterfaces;
 
 namespace StackBarTest2
 {
@@ -17,7 +17,7 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
-            FloorsCollection = new ObservableCollection<IRowViewModel>();
+            FloorsCollection = new ObservableCollection<IStackBarRowModel>();
             foreach (Floor floor in Floors)
             {
                 FloorsCollection.Add(new FloorRowModel(floor));
@@ -54,10 +54,10 @@ namespace StackBarTest2
         public ObservableCollection<Floor> Floors => _floors;
 
        
-        public ObservableCollection<IRowViewModel> FloorsCollection { get; set; }
+        public ObservableCollection<IStackBarRowModel> FloorsCollection { get; set; }
     }
 
-    public class RoomCellModel : ICellViewModel
+    public class RoomCellModel : IStackBarCellModel
     {
         public RoomCellModel(Room room)
         {
@@ -69,7 +69,7 @@ namespace StackBarTest2
         public double Value => DataObject.Area;
     }
 
-    public class FloorRowModel : IRowViewModel
+    public class FloorRowModel : IStackBarRowModel
     {
         public FloorRowModel(Floor floor)
         {
@@ -78,7 +78,7 @@ namespace StackBarTest2
 
         public Floor DataObject { get; }
 
-        public ObservableCollection<ICellViewModel> Cells
+        public ObservableCollection<IStackBarCellModel> Cells
         {
             get
             {
@@ -87,7 +87,7 @@ namespace StackBarTest2
                 {
                     rooms.Add(new RoomCellModel(room));
                 }
-                return new ObservableCollection<ICellViewModel>(rooms);
+                return new ObservableCollection<IStackBarCellModel>(rooms);
             }
         }
     }

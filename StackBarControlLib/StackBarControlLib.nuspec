@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XQ.StackBarComponent</id>
+    <version>$version$</version>
+    <authors>berkus</authors>
+    <owners>berkus</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Stacked bar display</description>
+    <tags>stack bar floor graph</tags>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\StackBarControl*.dll" target="lib\net45\" />
+    <file src="bin\$configuration$\StackBarControl*.pdb" target="lib\net45\" />
+  </files>
+</package>

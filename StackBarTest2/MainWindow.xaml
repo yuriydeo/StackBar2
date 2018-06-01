@@ -5,18 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StackBarTest2"
         xmlns:converters="clr-namespace:StackBarTest2.Converters"
-        xmlns:floorStackLib="clr-namespace:XQ.FloorStackLib;assembly=XQ.FloorStackLib"
+        xmlns:stackBarControlLib="clr-namespace:StackBarControlLib;assembly=XQ.FloorStack"
+        xmlns:converters1="clr-namespace:StackBarControlLib.Converters;assembly=XQ.FloorStack"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500">
     <Window.Resources>
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
+        <converters1:ValueScaleToWidthConverter x:Key="valueScaleWidthConverter"/>
     </Window.Resources>
     <Grid>
-        <floorStackLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
-                               MinCellWidth="0"
-                               RowHeight="100">
+        <stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
+                                            MinCellWidth="0"
+                                            RowHeight="100"
+                                            IsPreviewMode="False">
 
-            <floorStackLib:StackBarControl.HeaderTemplate>
+            <stackBarControlLib:StackBarControl.HeaderTemplate>
                 <DataTemplate DataType="local:FloorRowModel">
                     <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
                         <StackPanel Orientation="Vertical" Background="Beige">
@@ -25,9 +28,9 @@
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </floorStackLib:StackBarControl.HeaderTemplate>
+            </stackBarControlLib:StackBarControl.HeaderTemplate>
 
-            <floorStackLib:StackBarControl.CellTemplate >
+            <stackBarControlLib:StackBarControl.CellTemplate >
                 <DataTemplate DataType="local:RoomCellModel">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
@@ -47,10 +50,34 @@
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </floorStackLib:StackBarControl.CellTemplate>
-        </floorStackLib:StackBarControl>
+            </stackBarControlLib:StackBarControl.CellTemplate>
+
+            <stackBarControlLib:StackBarControl.PreviewBarTemplate>
+                <ControlTemplate TargetType="stackBarControlLib:StackBarRowItemControl">
+                    <Border BorderThickness="1" Padding="0" Margin="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Height="100">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="Aqua"></SolidColorBrush>
+                                </Rectangle.Fill>
+                                <Rectangle.Width>
+                                    <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
+                                        <Binding Path="DataObject.Area" ></Binding>
+                                        <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
+                                    </MultiBinding>
+                                </Rectangle.Width>
+                            </Rectangle>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </stackBarControlLib:StackBarControl.PreviewBarTemplate>
+        </stackBarControlLib:StackBarControl>
     </Grid>
 </Window>
+
+
+
+
 
 
 

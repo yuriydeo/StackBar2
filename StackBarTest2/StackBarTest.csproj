@@ -97,9 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XQ.FloorStackLib\XQ.FloorStackLib.csproj">
-      <Project>{29fcfc90-f084-4a16-8de1-95d08c2605d7}</Project>
-      <Name>XQ.FloorStackLib</Name>
+    <ProjectReference Include="..\StackBarControlLib\XQ.FloorStack.csproj">
+      <Project>{33e7daaa-6ea5-4181-b15f-2786dc08a02a}</Project>
+      <Name>XQ.FloorStack</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
