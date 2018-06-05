@@ -30,7 +30,7 @@
                                         <Style TargetType="ContentPresenter">
                                             <Setter Property="Focusable" Value="False"/>
                                             <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
                                         </Style>
                                     </ItemsControl.ItemContainerStyle>
                                     <ItemsControl.ItemTemplate>
@@ -48,36 +48,36 @@
                                 </ItemsControl>
                             </ScrollViewer>
                             <ScrollViewer VerticalScrollBarVisibility="Hidden" 
-                                          HorizontalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled"
                                           Name="BarScrollViewer">
-                                <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                               HorizontalContentAlignment="Left">
-                                    <ItemsControl.Template>
+                                    <ListBox.Template>
                                         <ControlTemplate>
                                             <ItemsPresenter />
                                         </ControlTemplate>
-                                    </ItemsControl.Template>
+                                    </ListBox.Template>
 
-                                    <ItemsControl.ItemContainerStyle>
-                                        <Style TargetType="ContentPresenter">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
                                             <Setter Property="Focusable" Value="False"/>
                                             <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
                                         </Style>
-                                    </ItemsControl.ItemContainerStyle>
+                                    </ListBox.ItemContainerStyle>
 
-                                    <ItemsControl.ItemTemplate>
+                                    <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <local:StackBarRowItemControl ItemsSource="{Binding Cells}" />
                                         </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
+                                    </ListBox.ItemTemplate>
 
-                                    <ItemsControl.ItemsPanel>
+                                    <ListBox.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical"></StackPanel>
                                         </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
                             </ScrollViewer>
                         </DockPanel>
 
@@ -89,7 +89,7 @@
 
     <Style TargetType="{x:Type local:StackBarRowItemControl}">
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsPreviewMode, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" Value="True">
+            <DataTrigger Binding="{Binding IsPreviewMode, RelativeSource={RelativeSource Self}}" Value="True">
                 <Setter Property="Template" Value ="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/> 
             </DataTrigger>
         </Style.Triggers>
@@ -120,7 +120,7 @@
                                         <ContentControl.Width>
                                             <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                                 <Binding Path="Value" ></Binding>
-                                                <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarControl}"></Binding>
+                                                <Binding Path="RowScale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
                                             </MultiBinding>
                                         </ContentControl.Width>
                                     </ContentControl>
@@ -128,7 +128,7 @@
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                    <WrapPanel Orientation="Horizontal"></WrapPanel>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>

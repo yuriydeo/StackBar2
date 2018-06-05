@@ -26,41 +26,23 @@ namespace StackBarControlLib
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
         }
-        public StackBarControl()
-        {
-            resizeTimer = new DispatcherTimer();
-            resizeTimer.Interval = TimeSpan.FromMilliseconds(30);
-            resizeTimer.Tick += ResizeTimerFinished;
-        }
         #endregion
 
         #region Fields
         private ScrollViewer _barScroll;
         private ScrollViewer _headerScroll;
-        /// <summary>
-        /// timer postphones scaling so resizing is already finished when it fires,
-        /// and also aggregates multiple calls from MeasureOverride/RenderSizeChanged into single call
-        /// </summary>
-        private DispatcherTimer resizeTimer;
         #endregion
 
         #region DependancyProperties
-        public static readonly DependencyProperty IsPreviewModeProperty = DependencyProperty.Register("IsPreviewMode", typeof(bool), typeof(StackBarControl), new PropertyMetadata(true));
         public static DependencyProperty CellTemplateProperty = DependencyProperty.Register("CellTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
         public static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
         public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(ControlTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
         private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("Scale",typeof(double), typeof(StackBarControl), new PropertyMetadata());
-        public static readonly DependencyProperty ScaleProperty = ScalePropertyKey.DependencyProperty;
-        public static DependencyProperty MinCellWidthProperty = DependencyProperty.Register("MinCellWidth", typeof(double), typeof(StackBarControl), new PropertyMetadata(0.0, MinCellWidthPropertyChangedCallback));
+        public static readonly DependencyProperty GlobalScaleProperty = ScalePropertyKey.DependencyProperty;
         public static DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(StackBarControl));
         #endregion
 
         #region Properties
-        public bool IsPreviewMode
-        {
-            get { return (bool) GetValue(IsPreviewModeProperty); }
-            set { SetValue(IsPreviewModeProperty, value); }
-        }
         public DataTemplate CellTemplate
         {
             get { return (DataTemplate)GetValue(CellTemplateProperty); }
@@ -76,15 +58,10 @@ namespace StackBarControlLib
             get { return (ControlTemplate)GetValue(PreviewBarTemplateProperty); }
             set { SetValue(PreviewBarTemplateProperty, value); }
         }
-        public double Scale
+        public double GlobalScale
         {
-            get { return (double)GetValue(ScaleProperty); }
+            get { return (double)GetValue(GlobalScaleProperty); }
             private set { SetValue(ScalePropertyKey, value); }
-        }
-        public double MinCellWidth
-        {
-            get { return (double)GetValue(MinCellWidthProperty); }
-            set { SetValue(MinCellWidthProperty, value); }
         }
         public double RowHeight
         {
@@ -107,23 +84,23 @@ namespace StackBarControlLib
             _headerScroll.SizeChanged += OnHeaderSizeChanged;
             _barScroll.ScrollChanged += OnScrollChanged;
         }
-        private void SetScale()
-        {
-            if (MinCellWidth <= 0 || IsPreviewMode)
-                SetScaleByWidth();
-            else
-                SetScaleByCellValue();
-        }
+        //private void SetScale()
+        //{
+        //    if (MinCellWidth <= 0 || IsPreviewMode)
+        //        SetScaleByWidth();
+        //    else
+        //        SetScaleByCellValue();
+        //}
 
         /// <summary>
         /// timer postphones scaling so resizing is already finished when it fires,
         /// and also aggregates multiple calls from MeasureOverride/RenderSizeChanged into single call
         /// </summary>
-        private void ResizeTimerFinished(object sender, EventArgs e)
-        {
-            ((DispatcherTimer)sender).Stop();
-            SetScale();
-        }
+        //private void ResizeTimerFinished(object sender, EventArgs e)
+        //{
+        //    ((DispatcherTimer)sender).Stop();
+        //    SetScaleByWidth();
+        //}
         private void SetScaleByWidth()
         {
             if (ItemsSource == null)
@@ -136,30 +113,14 @@ namespace StackBarControlLib
 
             //Sometimes StackBar happen to not fit by width a little. I suspect a rounding error
             //Nudging measure a little seems to fix the problem
-            double cellsDensity = barWidth / rows.Sum(r => r.Cells.Count);
-            double multiplier = IsPreviewMode ? 1 : 1 - (0.05 / cellsDensity);
+            //double cellsDensity = barWidth / rows.Sum(r => r.Cells.Count);
+            //double multiplier = IsPreviewMode ? 1 : 1 - (0.05 / cellsDensity);
 
-            Scale = (barWidth * multiplier) / maxValue;
-        }
-        private void SetScaleByCellValue()
-        {
-            if (ItemsSource == null)
-                return;
-
-            ObservableCollection<IStackBarRowModel> rows = (ObservableCollection<IStackBarRowModel>)ItemsSource;
-            double minValue = rows.Min(r => r.Cells.Min(c => c.Value));
-
-            Scale = MinCellWidth / minValue;
-        }
-        private static void MinCellWidthPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var caller = (StackBarControl)d;
-            caller.SetScale();
+            GlobalScale = barWidth / maxValue;
         }
         protected override Size MeasureOverride(Size constraint)
         {
-            resizeTimer.Stop();
-            resizeTimer.Start();
+            SetScaleByWidth();
             return base.MeasureOverride(constraint);
         }
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
@@ -183,7 +144,7 @@ namespace StackBarControlLib
 
             base.OnItemsSourceChanged(oldValue, newValue);
 
-            SetScale();
+            SetScaleByWidth();
         }
 
         //private void OnItemSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -198,14 +159,13 @@ namespace StackBarControlLib
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            resizeTimer.Stop();
-            resizeTimer.Start();
+            SetScaleByWidth();
         }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             BindScrollViewers();
-            SetScale();
+            SetScaleByWidth();
         }
         private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
         {
@@ -223,7 +183,7 @@ namespace StackBarControlLib
 
         private void OnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            SetScale();
+            SetScaleByWidth();
         }
         #endregion 
     }
