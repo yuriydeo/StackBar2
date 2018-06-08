@@ -57,17 +57,17 @@ namespace StackBarTest2
         public ObservableCollection<IStackBarRowModel> FloorsCollection { get; set; }
     }
 
-    public class RoomCellModel : IStackBarCellModel
-    {
-        public RoomCellModel(Room room)
-        {
-            DataObject = room;
-        }
+    //public class RoomCellModel : IStackBarCellModel
+    //{
+    //    public RoomCellModel(Room room)
+    //    {
+    //        DataObject = room;
+    //    }
 
-        public Room DataObject { get; }
+    //    public Room DataObject { get; }
 
-        public double Value => DataObject.Area;
-    }
+    //    public double Value => DataObject.Area;
+    //}
 
     public class FloorRowModel : IStackBarRowModel
     {
@@ -82,10 +82,10 @@ namespace StackBarTest2
         {
             get
             {
-                ObservableCollection<RoomCellModel> rooms = new ObservableCollection<RoomCellModel>();
+                ObservableCollection<StackBarDataObjectWrapper<Room>> rooms = new ObservableCollection<StackBarDataObjectWrapper<Room>>();
                 foreach (Room room in DataObject.Rooms)
                 {
-                    rooms.Add(new RoomCellModel(room));
+                    rooms.Add(new StackBarDataObjectWrapper<Room>(room, (Room r) => { return r.Area; }));
                 }
                 return new ObservableCollection<IStackBarCellModel>(rooms);
             }
