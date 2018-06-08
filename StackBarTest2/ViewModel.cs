@@ -17,10 +17,11 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
-            FloorsCollection = new ObservableCollection<IStackBarRowModel>();
+            FloorsCollection = new ObservableCollection<StackBarRowModel>();
             foreach (Floor floor in Floors)
             {
-                FloorsCollection.Add(new FloorRowModel(floor));
+                var roomscol = new ObservableCollection<StackBarCellModel>(floor.Rooms.Select(i=> new StackBarCellModel(i, f=>((Room)f).Area)));
+                FloorsCollection.Add(new StackBarRowModel(roomscol));
             }
         }
 
@@ -54,7 +55,7 @@ namespace StackBarTest2
         public ObservableCollection<Floor> Floors => _floors;
 
        
-        public ObservableCollection<IStackBarRowModel> FloorsCollection { get; set; }
+        public ObservableCollection<StackBarRowModel> FloorsCollection { get; set; }
     }
 
     //public class RoomCellModel : IStackBarCellModel
@@ -69,26 +70,26 @@ namespace StackBarTest2
     //    public double Value => DataObject.Area;
     //}
 
-    public class FloorRowModel : IStackBarRowModel
-    {
-        public FloorRowModel(Floor floor)
-        {
-            DataObject = floor;
-        }
+    //public class FloorRowModel : StackBarRowModel
+    //{
+    //    public FloorRowModel(Floor floor)
+    //    {
+    //        DataObject = floor;
+    //    }
 
-        public Floor DataObject { get; }
+    //    public Floor DataObject { get; }
 
-        public ObservableCollection<IStackBarCellModel> Cells
-        {
-            get
-            {
-                ObservableCollection<StackBarDataObjectWrapper<Room>> rooms = new ObservableCollection<StackBarDataObjectWrapper<Room>>();
-                foreach (Room room in DataObject.Rooms)
-                {
-                    rooms.Add(new StackBarDataObjectWrapper<Room>(room, (Room r) => { return r.Area; }));
-                }
-                return new ObservableCollection<IStackBarCellModel>(rooms);
-            }
-        }
-    }
+    //    public ObservableCollection<St> Cells
+    //    {
+    //        get
+    //        {
+    //            ObservableCollection<StackBarCellModel> rooms = new ObservableCollection<StackBarCellModel>();
+    //            foreach (Room room in DataObject.Rooms)
+    //            {
+    //                rooms.Add(new StackBarCellModel>(room, (Room r) => { return (Room)r.Area; }));
+    //            }
+    //            return new ObservableCollection<IStackBarCellModel>(rooms);
+    //        }
+    //    }
+    //}
 }

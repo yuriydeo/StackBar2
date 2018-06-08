@@ -72,7 +72,7 @@ namespace StackBarControlLib
             if (ItemsSource == null)
                 return;
 
-            ObservableCollection<IStackBarCellModel> cells = (ObservableCollection<IStackBarCellModel>)ItemsSource;
+            ObservableCollection<StackBarCellModel> cells = (ObservableCollection<StackBarCellModel>)ItemsSource;
             double minValue = cells.Min(c => c.Value);
 
             RowScale = MinCellWidth / minValue;

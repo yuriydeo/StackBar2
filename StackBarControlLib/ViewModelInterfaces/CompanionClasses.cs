@@ -7,26 +7,25 @@ using System.Threading.Tasks;
 
 namespace StackBarControlLib.ViewModelInterfaces
 {
-    public interface IStackBarCellModel
+    public class StackBarRowModel
     {
-        double Value { get; }
+        public StackBarRowModel(ObservableCollection<StackBarCellModel> col)
+        {
+            Cells = col;
+        }
+        public virtual ObservableCollection<StackBarCellModel> Cells { get; }
     }
 
-    public interface IStackBarRowModel
+    public class StackBarCellModel 
     {
-        ObservableCollection<IStackBarCellModel> Cells { get; }
-    }
-
-    public class StackBarDataObjectWrapper<T> : IStackBarCellModel
-    {
-        public StackBarDataObjectWrapper(T dataObject, Func<T, double> valueFunc)
+        public StackBarCellModel(object dataObject, Func<object, double> valueFunc)
         {
             DataObject = dataObject;
             _storedFunc = valueFunc;
         }
 
-        public T DataObject { get; }
-        private Func<T, double> _storedFunc;
+        public object DataObject { get; }
+        private Func<object, double> _storedFunc;
 
         public double Value
         {
