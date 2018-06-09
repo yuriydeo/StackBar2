@@ -18,6 +18,8 @@ namespace StackBarControlLib.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
+                return 0;
             var value = (double)values[0];
             var scale = (double)values[1];
             return value * scale;

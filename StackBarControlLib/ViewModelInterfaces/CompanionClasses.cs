@@ -9,11 +9,17 @@ namespace StackBarControlLib.ViewModelInterfaces
 {
     public class StackBarRowModel
     {
-        public StackBarRowModel(ObservableCollection<StackBarCellModel> col)
+        public StackBarRowModel(object dataObject, ObservableCollection<StackBarCellModel> col)
         {
             Cells = col;
+            DataObject = dataObject;
         }
+        public object DataObject { get; }
         public virtual ObservableCollection<StackBarCellModel> Cells { get; }
+        public double Value
+        {
+            get { return Cells.Sum(c => c.Value); }
+        }
     }
 
     public class StackBarCellModel 

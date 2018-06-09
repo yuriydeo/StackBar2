@@ -14,7 +14,60 @@
         <converters1:ValueScaleToWidthConverter x:Key="valueScaleWidthConverter"/>
     </Window.Resources>
     <Grid>
-        <stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
+        <stackBarControlLib:StackBarRowItemControl DataContext="{Binding testFloor}">
+            <stackBarControlLib:StackBarRowItemControl.HeaderTemplate>
+                <DataTemplate DataType="local:StackBarRowModel">
+                    <Border BorderThickness="1" Margin="0" Padding="0" Width="50">
+                        <StackPanel Orientation="Vertical" Background="Beige">
+                            <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </stackBarControlLib:StackBarRowItemControl.HeaderTemplate>
+
+            <stackBarControlLib:StackBarRowItemControl.CellTemplate >
+                <DataTemplate DataType="local:StackBarCellModel">
+                    <Border BorderThickness="1" Padding="0" Margin="0">
+                        <StackPanel Orientation="Vertical" Height="100">
+                            <StackPanel.Background>
+                                <SolidColorBrush>
+                                    <SolidColorBrush.Color>
+                                        <MultiBinding Converter="{StaticResource LegendConverter}">
+                                            <Binding Path="DataContext.LegendDictionary" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                            <Binding Path="DataObject.Type" />
+                                        </MultiBinding>
+                                    </SolidColorBrush.Color>
+                                </SolidColorBrush>
+                            </StackPanel.Background>
+                            <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Type}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </stackBarControlLib:StackBarRowItemControl.CellTemplate>
+
+            <stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
+                <DataTemplate DataType="local:StackBarRowModel">
+                    <Border BorderThickness="1" Padding="0" Margin="0">
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="Aqua"></SolidColorBrush>
+                            </Rectangle.Fill>
+
+                                <!--<Rectangle.Width>
+                                <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
+                                    <Binding Path="DataObject.Area" ></Binding>
+                                    <Binding Path="GlobalScale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
+                                </MultiBinding>
+                            </Rectangle.Width>-->
+                        </Rectangle>
+                    </Border>
+                </DataTemplate>
+            </stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
+        </stackBarControlLib:StackBarRowItemControl>
+        <!--<stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
                                             RowHeight="100">
 
             <stackBarControlLib:StackBarControl.HeaderTemplate>
@@ -67,7 +120,7 @@
                     </Border>
                 </ControlTemplate>
             </stackBarControlLib:StackBarControl.PreviewBarTemplate>
-        </stackBarControlLib:StackBarControl>
+        </stackBarControlLib:StackBarControl>-->
     </Grid>
 </Window>
 

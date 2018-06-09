@@ -32,10 +32,17 @@ namespace StackBarControlLib
         }
 
         public static DependencyProperty CellTemplateProperty = DependencyProperty.Register("CellTemplate", typeof(DataTemplate), typeof(StackBarRowItemControl), new PropertyMetadata(default(DataTemplate)));
-        public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(ControlTemplate), typeof(StackBarRowItemControl), new PropertyMetadata(default(DataTemplate)));
-        private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("Scale", typeof(double), typeof(StackBarRowItemControl), new PropertyMetadata());
-        public static readonly DependencyProperty RowScaleProperty = ScalePropertyKey.DependencyProperty;
+        public static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(StackBarRowItemControl), new PropertyMetadata(default(DataTemplate)));
+        public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(DataTemplate), typeof(StackBarRowItemControl), new PropertyMetadata(default(DataTemplate)));
+        private static readonly DependencyPropertyKey RowInnerScalePropertyKey = DependencyProperty.RegisterReadOnly("RowInnerScaleProperty", typeof(double), typeof(StackBarRowItemControl), new PropertyMetadata());
+        public static readonly DependencyProperty RowInnerScaleProperty = RowInnerScalePropertyKey.DependencyProperty;
+        public static DependencyProperty ScaleProperty = DependencyProperty.Register("Scale", typeof(double), typeof(StackBarRowItemControl), new PropertyMetadata(1.0));
 
+        public double Scale
+        {
+            get { return (double)GetValue(ScaleProperty); }
+            private set { SetValue(ScaleProperty, value); }
+        }
         public bool IsPreviewMode
         {
             get { return (bool)GetValue(IsPreviewModeProperty); }
@@ -47,16 +54,21 @@ namespace StackBarControlLib
             get { return (DataTemplate)GetValue(CellTemplateProperty); }
             set { SetValue(CellTemplateProperty, value); }
         }
-
-        public ControlTemplate PreviewBarTemplate
+        public DataTemplate HeaderTemplate
         {
-            get { return (ControlTemplate)GetValue(PreviewBarTemplateProperty); }
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
+        }
+
+        public DataTemplate PreviewBarTemplate
+        {
+            get { return (DataTemplate)GetValue(PreviewBarTemplateProperty); }
             set { SetValue(PreviewBarTemplateProperty, value); }
         }
         public double RowScale
         {
-            get { return (double)GetValue(RowScaleProperty); }
-            private set { SetValue(ScalePropertyKey, value); }
+            get { return (double)GetValue(RowInnerScaleProperty); }
+            private set { SetValue(RowInnerScalePropertyKey, value); }
         }
 
         private double MinCellWidth { get; set; } = 40;
