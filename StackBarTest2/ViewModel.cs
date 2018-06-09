@@ -17,11 +17,15 @@ namespace StackBarTest2
         public ViewModel()
         {
             PopulateData();
-            FloorsCollection = new ObservableCollection<IStackBarRowModel>();
+            FloorsCollection = new ObservableCollection<StackBarRowModel>();
             foreach (Floor floor in Floors)
             {
-                FloorsCollection.Add(new FloorRowModel(floor));
+                var roomscol = new ObservableCollection<StackBarCellModel>(floor.Rooms.Select(i=> new StackBarCellModel(i, f=>((Room)f).Area)));
+                FloorsCollection.Add(new StackBarRowModel(floor, roomscol));
             }
+            testFloor = new StackBarRowModel(_floors[0], new ObservableCollection<StackBarCellModel>(_floors[0].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
+            testFloor2 = new StackBarRowModel(_floors[1], new ObservableCollection<StackBarCellModel>(_floors[1].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
+
         }
 
         private void PopulateData()
@@ -53,42 +57,44 @@ namespace StackBarTest2
         private ObservableCollection<Floor> _floors;
         public ObservableCollection<Floor> Floors => _floors;
 
-       
-        public ObservableCollection<IStackBarRowModel> FloorsCollection { get; set; }
+        public StackBarRowModel testFloor { get; set; }
+        public StackBarRowModel testFloor2  { get; set; }
+
+        public ObservableCollection<StackBarRowModel> FloorsCollection { get; set; }
     }
 
-    public class RoomCellModel : IStackBarCellModel
-    {
-        public RoomCellModel(Room room)
-        {
-            DataObject = room;
-        }
+    //public class RoomCellModel : IStackBarCellModel
+    //{
+    //    public RoomCellModel(Room room)
+    //    {
+    //        DataObject = room;
+    //    }
 
-        public Room DataObject { get; }
+    //    public Room DataObject { get; }
 
-        public double Value => DataObject.Area;
-    }
+    //    public double Value => DataObject.Area;
+    //}
 
-    public class FloorRowModel : IStackBarRowModel
-    {
-        public FloorRowModel(Floor floor)
-        {
-            DataObject = floor;
-        }
+    //public class FloorRowModel : StackBarRowModel
+    //{
+    //    public FloorRowModel(Floor floor)
+    //    {
+    //        DataObject = floor;
+    //    }
 
-        public Floor DataObject { get; }
+    //    public Floor DataObject { get; }
 
-        public ObservableCollection<IStackBarCellModel> Cells
-        {
-            get
-            {
-                ObservableCollection<RoomCellModel> rooms = new ObservableCollection<RoomCellModel>();
-                foreach (Room room in DataObject.Rooms)
-                {
-                    rooms.Add(new RoomCellModel(room));
-                }
-                return new ObservableCollection<IStackBarCellModel>(rooms);
-            }
-        }
-    }
+    //    public ObservableCollection<St> Cells
+    //    {
+    //        get
+    //        {
+    //            ObservableCollection<StackBarCellModel> rooms = new ObservableCollection<StackBarCellModel>();
+    //            foreach (Room room in DataObject.Rooms)
+    //            {
+    //                rooms.Add(new StackBarCellModel>(room, (Room r) => { return (Room)r.Area; }));
+    //            }
+    //            return new ObservableCollection<IStackBarCellModel>(rooms);
+    //        }
+    //    }
+    //}
 }

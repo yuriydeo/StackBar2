@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:StackBarControlLib.Behaviors"
                     xmlns:converters="clr-namespace:StackBarControlLib.Converters"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:res="clr-namespace:XQ.LocalizationTool.Res;assembly=XQ.LocalizationTools"
+                   
                     xmlns:local="clr-namespace:StackBarControlLib">
     <converters:ValueScaleToWidthConverter x:Key="valueScaletoWidthConverter" />
     <Style TargetType="{x:Type local:StackBarControl}">
@@ -88,50 +87,80 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarRowItemControl}">
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <DataTrigger Binding="{Binding IsPreviewMode, RelativeSource={RelativeSource Self}}" Value="True">
-                <Setter Property="Template" Value ="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/> 
+                <Setter Property="Template" Value ="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"/>
             </DataTrigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
+        <!--<EventSetter Event="MouseDoubleClick" Handler="StackBarRowDoubleClickHandler"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarRowItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ContentControl Grid.Column="0" 
+                                            Content="{Binding}"
+                                            VerticalAlignment="Stretch"
+                                            ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                            </ContentControl>
+                            <ContentControl Grid.Column="1" 
+                                            Content="{Binding}"
+                                            ContentTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"
+                                            Height="100"
+                                            HorizontalAlignment="Left"
+                                            Visibility="{Binding PreviewVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                <ContentControl.Width>
+                                    <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
+                                        <Binding Path="Value" ></Binding>
+                                        <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
+                                    </MultiBinding>
+                                </ContentControl.Width>
+                            </ContentControl>
 
-                        <ListBox   ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
-                            <ListBox.Template>
-                                <ControlTemplate>
-                                    <ItemsPresenter />
-                                </ControlTemplate>
-                            </ListBox.Template>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentControl  Content="{Binding}"
-                                                     ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                        <ContentControl.Width>
-                                            <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
-                                                <Binding Path="Value" ></Binding>
-                                                <Binding Path="RowScale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
-                                            </MultiBinding>
-                                        </ContentControl.Width>
-                                    </ContentControl>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"></WrapPanel>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
+                            <ListBox  Grid.Column="1" 
+                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}" 
+                                      Visibility="{Binding DetailedVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter />
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl  Content="{Binding}"
+                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                            <ContentControl.Width>
+                                                <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
+                                                    <Binding Path="Value" ></Binding>
+                                                    <Binding Path="RowScale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
+                                                </MultiBinding>
+                                            </ContentControl.Width>
+                                        </ContentControl>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

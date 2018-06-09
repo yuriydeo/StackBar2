@@ -106,7 +106,7 @@ namespace StackBarControlLib
             if (ItemsSource == null)
                 return;
 
-            ObservableCollection<IStackBarRowModel> rows = (ObservableCollection<IStackBarRowModel>)ItemsSource;
+            ObservableCollection<StackBarRowModel> rows = (ObservableCollection<StackBarRowModel>)ItemsSource;
 
             double maxValue = rows.Max(r => r.Cells.Sum(c => c.Value));
             double barWidth = _barScroll?.ViewportWidth ?? 0;
@@ -127,7 +127,7 @@ namespace StackBarControlLib
         {
             if (newValue == null)
                 return;
-            if (!(newValue is ObservableCollection<IStackBarRowModel>))
+            if (!(newValue is ObservableCollection<StackBarRowModel>))
                 throw new ArgumentException("StackBarControl expects ObservableCollection which implements IRowViewModel");
 
             ////unsubscribe from old collection events 
