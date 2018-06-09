@@ -58,6 +58,7 @@
     <Compile Include="Converters\ValueScaleToWidthConverter.cs" />
     <Compile Include="StackBarControl.cs" />
     <Compile Include="StackBarRowItemControl.cs" />
+    <Compile Include="Themes\ResourceDictionary.cs" />
     <Compile Include="ViewModelInterfaces\CompanionClasses.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>

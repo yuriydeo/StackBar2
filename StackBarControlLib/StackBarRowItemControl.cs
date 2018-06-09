@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using StackBarControlLib.ViewModelInterfaces;
 
 namespace StackBarControlLib
@@ -61,6 +62,12 @@ namespace StackBarControlLib
         {
             get { return (Visibility)GetValue(DetailedVisibilityProperty); }
             set { SetValue(DetailedVisibilityProperty, value); }
+        }
+
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            //base.OnMouseDoubleClick(e);
+            IsPreviewMode = !IsPreviewMode;
         }
 
         public DataTemplate CellTemplate

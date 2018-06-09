@@ -22,7 +22,7 @@
             <ColumnDefinition Width="100" SharedSizeGroup="A"/>
             <ColumnDefinition SharedSizeGroup="B"/>
         </Grid.ColumnDefinitions>-->
-        <stackBarControlLib:StackBarRowItemControl Grid.Row="0" DataContext="{Binding testFloor}" IsPreviewMode="True" ItemsSource="{Binding Cells}">
+        <stackBarControlLib:StackBarRowItemControl Grid.Row="0" DataContext="{Binding testFloor}" ItemsSource="{Binding Cells}">
             <stackBarControlLib:StackBarRowItemControl.HeaderTemplate>
                 <DataTemplate DataType="local:StackBarRowModel">
                     <Border BorderThickness="1" Margin="0" Padding="0">
@@ -76,14 +76,13 @@
             </stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
         </stackBarControlLib:StackBarRowItemControl>
 
-        <stackBarControlLib:StackBarRowItemControl Grid.Row="1" DataContext="{Binding testFloor2}" IsPreviewMode="False" ItemsSource="{Binding Cells}">
+        <stackBarControlLib:StackBarRowItemControl Grid.Row="1" DataContext="{Binding testFloor2}" ItemsSource="{Binding Cells}">
             <stackBarControlLib:StackBarRowItemControl.HeaderTemplate>
                 <DataTemplate DataType="local:StackBarRowModel">
                     <Border BorderThickness="1" Margin="0" Padding="0">
                         <StackPanel Orientation="Vertical" Background="Beige">
-                            <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
-                            <TextBlock Text="aafagageafawfkjawkfnagnselglawfm;lawmfawg" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding DataObject.Name}" />
+                            <TextBlock Text="{Binding DataObject.Area}"  />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
