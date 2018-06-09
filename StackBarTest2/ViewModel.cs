@@ -24,6 +24,8 @@ namespace StackBarTest2
                 FloorsCollection.Add(new StackBarRowModel(floor, roomscol));
             }
             testFloor = new StackBarRowModel(_floors[0], new ObservableCollection<StackBarCellModel>(_floors[0].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
+            testFloor2 = new StackBarRowModel(_floors[1], new ObservableCollection<StackBarCellModel>(_floors[1].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
+
         }
 
         private void PopulateData()
@@ -56,7 +58,8 @@ namespace StackBarTest2
         public ObservableCollection<Floor> Floors => _floors;
 
         public StackBarRowModel testFloor { get; set; }
-       
+        public StackBarRowModel testFloor2  { get; set; }
+
         public ObservableCollection<StackBarRowModel> FloorsCollection { get; set; }
     }
 

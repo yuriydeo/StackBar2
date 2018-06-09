@@ -101,8 +101,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -110,13 +110,14 @@
                             <ContentControl Grid.Column="0" 
                                             Content="{Binding}"
                                             VerticalAlignment="Stretch"
-                                             ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                            ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                             </ContentControl>
                             <ContentControl Grid.Column="1" 
                                             Content="{Binding}"
                                             ContentTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"
                                             Height="100"
-                                            HorizontalAlignment="Left">
+                                            HorizontalAlignment="Left"
+                                            Visibility="{Binding PreviewVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                                 <ContentControl.Width>
                                     <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                         <Binding Path="Value" ></Binding>
@@ -125,10 +126,9 @@
                                 </ContentControl.Width>
                             </ContentControl>
 
-
-
-
-                            <ListBox  Grid.Column="1" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}" Visibility="Collapsed">
+                            <ListBox  Grid.Column="1" 
+                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}" 
+                                      Visibility="{Binding DetailedVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                                 <ListBox.Template>
                                     <ControlTemplate>
                                         <ItemsPresenter />
@@ -144,7 +144,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <ContentControl  Content="{Binding}"
-                                                     ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                                             <ContentControl.Width>
                                                 <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                                     <Binding Path="Value" ></Binding>
