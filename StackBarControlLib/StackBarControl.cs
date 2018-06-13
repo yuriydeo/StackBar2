@@ -25,10 +25,16 @@ namespace StackBarControlLib
         static StackBarControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StackBarControl), new FrameworkPropertyMetadata(typeof(StackBarControl)));
+            
+        }
+        public StackBarControl()
+        {
+            _resizeTimer.Tick += ResizeTimerFinished;
         }
         #endregion
 
         #region Fields
+        private DispatcherTimer _resizeTimer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(20) };
         #endregion
 
         #region DependancyProperties
@@ -37,7 +43,7 @@ namespace StackBarControlLib
         public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
         private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("GlobalScale",typeof(double), typeof(StackBarControl), new PropertyMetadata(1.0));
         public static readonly DependencyProperty GlobalScaleProperty = ScalePropertyKey.DependencyProperty;
-        public static DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(StackBarControl));
+        public static DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(StackBarControl), new PropertyMetadata(100.0));
         #endregion
 
         #region Properties
@@ -94,11 +100,11 @@ namespace StackBarControlLib
         /// timer postphones scaling so resizing is already finished when it fires,
         /// and also aggregates multiple calls from MeasureOverride/RenderSizeChanged into single call
         /// </summary>
-        //private void ResizeTimerFinished(object sender, EventArgs e)
-        //{
-        //    ((DispatcherTimer)sender).Stop();
-        //    SetScaleByWidth();
-        //}
+        private void ResizeTimerFinished(object sender, EventArgs e)
+        {
+            ((DispatcherTimer)sender).Stop();
+            SetScaleByWidth();
+        }
         private void SetScaleByWidth()
         {
             if (ItemsSource == null)
@@ -107,6 +113,8 @@ namespace StackBarControlLib
             ObservableCollection<StackBarRowModel> rows = (ObservableCollection<StackBarRowModel>)ItemsSource;
 
             double maxValue = rows.Max(r => r.Cells.Sum(c => c.Value));
+            if (this.VisualChildrenCount == 0)
+                return;
             Border border = this.GetVisualChild(0) as Border;
             ScrollViewer _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
             Grid _grid = border?.FindName("StackBarGrid") as Grid;
@@ -123,7 +131,9 @@ namespace StackBarControlLib
         }
         protected override Size MeasureOverride(Size constraint)
         {
-            SetScaleByWidth();
+            //SetScaleByWidth();
+            _resizeTimer.Stop();
+            _resizeTimer.Start();
             return base.MeasureOverride(constraint);
         }
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
@@ -147,7 +157,9 @@ namespace StackBarControlLib
 
             base.OnItemsSourceChanged(oldValue, newValue);
 
-            SetScaleByWidth();
+            //SetScaleByWidth();
+            _resizeTimer.Stop();
+            _resizeTimer.Start();
         }
 
         //private void OnItemSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -168,7 +180,9 @@ namespace StackBarControlLib
         {
             base.OnApplyTemplate();
             //BindScrollViewers();
-            SetScaleByWidth();
+            //SetScaleByWidth();
+            _resizeTimer.Stop();
+            _resizeTimer.Start();
         }
         //private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
         //{
@@ -184,10 +198,12 @@ namespace StackBarControlLib
         //    }
         //}
 
-        private void OnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetScaleByWidth();
-        }
+        //private void OnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    //SetScaleByWidth();
+        //    _resizeTimer.Stop();
+        //    _resizeTimer.Start();
+        //}
         #endregion 
     }
 }

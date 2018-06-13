@@ -77,6 +77,8 @@
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Focusable" Value="False"/>
                                             <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Padding" Value="0" />
                                             <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
                                         </Style>
                                     </ListBox.ItemContainerStyle>
@@ -84,10 +86,10 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <local:StackBarRowItemControl ItemsSource="{Binding Cells}" 
-                                                                      Scale ="{Binding GlobalScale, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" 
-                                                                      HeaderTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                      CellTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                      PreviewBarTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
+                                                                          Scale ="{Binding GlobalScale, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" 
+                                                                          HeaderTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                          CellTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                          PreviewBarTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
 
@@ -133,7 +135,7 @@
                             <ContentControl Grid.Column="1" 
                                             Content="{Binding}"
                                             ContentTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"
-                                            Height="100"
+                                            Height="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                             HorizontalAlignment="Left"
                                             Visibility="{Binding PreviewVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                                 <ContentControl.Width>
@@ -162,7 +164,8 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <ContentControl  Content="{Binding}"
-                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
+                                                         ContentTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"
+                                                         Height="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
                                             <ContentControl.Width>
                                                 <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                                     <Binding Path="Value" ></Binding>

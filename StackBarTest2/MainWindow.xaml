@@ -131,8 +131,7 @@
             </stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
         </stackBarControlLib:StackBarRowItemControl>-->
         
-        <stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
-                                            RowHeight="100">
+        <stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}">
 
             <stackBarControlLib:StackBarControl.HeaderTemplate>
             <DataTemplate DataType="local:StackBarRowModel">
@@ -148,7 +147,7 @@
             <stackBarControlLib:StackBarControl.CellTemplate >
             <DataTemplate DataType="local:StackBarCellModel">
                     <Border BorderThickness="1" Padding="0" Margin="0">
-                        <StackPanel Orientation="Vertical" Height="100">
+                        <StackPanel Orientation="Vertical">
                             <StackPanel.Background>
                                 <SolidColorBrush>
                                     <SolidColorBrush.Color>
