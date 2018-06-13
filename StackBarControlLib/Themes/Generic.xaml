@@ -3,6 +3,7 @@
                     xmlns:converters="clr-namespace:StackBarControlLib.Converters"
                     xmlns:local="clr-namespace:StackBarControlLib">
     <converters:ValueScaleToWidthConverter x:Key="valueScaletoWidthConverter" />
+    
     <Style TargetType="{x:Type local:StackBarControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -10,16 +11,19 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        
 
-                        <DockPanel LastChildFill="True" VerticalAlignment="Stretch">
-                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" 
+                            <!--<DockPanel LastChildFill="True" VerticalAlignment="Stretch">-->
+                            <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled" 
                                           VerticalScrollBarVisibility="Auto" 
                                           Name="HeaderScrollViewer" 
                                           DockPanel.Dock="Left"
                                           VerticalAlignment="Top"
                                           Height="{Binding ElementName=BarScrollViewer, Path=ViewportHeight}"
                                           FlowDirection="RightToLeft">
-                                <!--FlowDirection is here to make vertical scrollbar attach to left side of scrollview -->
+                                -->
+                            <!--FlowDirection is here to make vertical scrollbar attach to left side of scrollview -->
+                            <!--
                                 <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                          HorizontalContentAlignment="Stretch"
                                          FlowDirection="LeftToRight">
@@ -27,7 +31,9 @@
                                         <Style TargetType="ContentPresenter">
                                             <Setter Property="Focusable" Value="False"/>
                                             <Setter Property="Margin" Value="0"/>
-                                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
+                                            -->
+                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
+                            <!--
                                         </Style>
                                     </ItemsControl.ItemContainerStyle>
                                     <ItemsControl.ItemTemplate>
@@ -43,10 +49,15 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
-                            </ScrollViewer>
-                            <ScrollViewer VerticalScrollBarVisibility="Hidden" 
+                            </ScrollViewer>-->
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" 
                                           HorizontalScrollBarVisibility="Disabled"
                                           Name="BarScrollViewer">
+                            <Grid Name="StackBarGrid" Grid.IsSharedSizeScope="True">
+                                <!--<Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="StackBarHeaderSizeGroup" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>-->
                                 <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                               HorizontalContentAlignment="Left">
                                     <ListBox.Template>
@@ -65,7 +76,11 @@
 
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <local:StackBarRowItemControl ItemsSource="{Binding Cells}" />
+                                            <local:StackBarRowItemControl ItemsSource="{Binding Cells}" 
+                                                                      Scale ="{Binding GlobalScale, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" 
+                                                                      HeaderTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                      CellTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
+                                                                      PreviewBarTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
 
@@ -75,9 +90,10 @@
                                         </ItemsPanelTemplate>
                                     </ListBox.ItemsPanel>
                                 </ListBox>
-                            </ScrollViewer>
-                        </DockPanel>
-
+                            </Grid>
+                        </ScrollViewer>
+                            <!--</DockPanel>-->
+                       
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -99,12 +115,9 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="StackBarHeaderSizeGroup" />
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
                             <ContentControl Grid.Column="0" 
                                             Content="{Binding}"
                                             VerticalAlignment="Stretch"

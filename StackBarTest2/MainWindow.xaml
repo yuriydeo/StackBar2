@@ -13,16 +13,17 @@
         <converters:LegendValueColorConverter x:Key="LegendConverter"/>
         <converters1:ValueScaleToWidthConverter x:Key="valueScaleWidthConverter"/>
     </Window.Resources>
-    <Grid  Grid.IsSharedSizeScope="True">
+    <!--<Grid  Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
         <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" SharedSizeGroup="A"/>
             <ColumnDefinition SharedSizeGroup="B"/>
         </Grid.ColumnDefinitions>-->
-        <stackBarControlLib:StackBarRowItemControl Grid.Row="0" DataContext="{Binding testFloor}" ItemsSource="{Binding Cells}">
+        
+        <!--<stackBarControlLib:StackBarRowItemControl Grid.Row="0" DataContext="{Binding testFloor}" ItemsSource="{Binding Cells}">
             <stackBarControlLib:StackBarRowItemControl.HeaderTemplate>
                 <DataTemplate DataType="local:StackBarRowModel">
                     <Border BorderThickness="1" Margin="0" Padding="0">
@@ -64,12 +65,12 @@
                                 <SolidColorBrush Color="Aqua"></SolidColorBrush>
                             </Rectangle.Fill>
 
-                                <!--<Rectangle.Width>
+                                --><!--<Rectangle.Width>
                                 <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
                                     <Binding Path="DataObject.Area" ></Binding>
                                     <Binding Path="GlobalScale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
                                 </MultiBinding>
-                            </Rectangle.Width>-->
+                            </Rectangle.Width>--><!--
                         </Rectangle>
                     </Border>
                 </DataTemplate>
@@ -118,24 +119,24 @@
                                 <SolidColorBrush Color="Aqua"></SolidColorBrush>
                             </Rectangle.Fill>
 
-                            <!--<Rectangle.Width>
+                            --><!--<Rectangle.Width>
                                 <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
                                     <Binding Path="DataObject.Area" ></Binding>
                                     <Binding Path="GlobalScale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
                                 </MultiBinding>
-                            </Rectangle.Width>-->
+                            </Rectangle.Width>--><!--
                         </Rectangle>
                     </Border>
                 </DataTemplate>
             </stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
-        </stackBarControlLib:StackBarRowItemControl>
+        </stackBarControlLib:StackBarRowItemControl>-->
         
-        <!--<stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
+        <stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
                                             RowHeight="100">
 
             <stackBarControlLib:StackBarControl.HeaderTemplate>
-                <DataTemplate DataType="local:FloorRowModel">
-                    <Border BorderThickness="1" Margin="0" Padding="0" Width="50" Height="100">
+            <DataTemplate DataType="local:StackBarRowModel">
+                    <Border BorderThickness="1" Margin="0" Padding="0">
                         <StackPanel Orientation="Vertical" Background="Beige">
                             <TextBlock Text="{Binding DataObject.Name}" TextWrapping="Wrap" />
                             <TextBlock Text="{Binding DataObject.Area}" TextWrapping="Wrap" />
@@ -145,7 +146,7 @@
             </stackBarControlLib:StackBarControl.HeaderTemplate>
 
             <stackBarControlLib:StackBarControl.CellTemplate >
-                <DataTemplate DataType="local:RoomCellModel">
+            <DataTemplate DataType="local:StackBarCellModel">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <StackPanel Orientation="Vertical" Height="100">
                             <StackPanel.Background>
@@ -167,24 +168,24 @@
             </stackBarControlLib:StackBarControl.CellTemplate>
 
             <stackBarControlLib:StackBarControl.PreviewBarTemplate>
-                <ControlTemplate TargetType="stackBarControlLib:StackBarRowItemControl">
+                <DataTemplate DataType="local:StackBarRowModel">
                     <Border BorderThickness="1" Padding="0" Margin="0">
                         <Rectangle>
                             <Rectangle.Fill>
                                 <SolidColorBrush Color="Aqua"></SolidColorBrush>
                             </Rectangle.Fill>
-                            <Rectangle.Width>
+                            <!--<Rectangle.Width>
                                 <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
                                     <Binding Path="DataObject.Area" ></Binding>
                                     <Binding Path="GlobalScale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
                                 </MultiBinding>
-                            </Rectangle.Width>
+                            </Rectangle.Width>-->
                         </Rectangle>
                     </Border>
-                </ControlTemplate>
+                </DataTemplate>
             </stackBarControlLib:StackBarControl.PreviewBarTemplate>
-        </stackBarControlLib:StackBarControl>-->
-    </Grid>
+        </stackBarControlLib:StackBarControl>
+    <!--</Grid>-->
 </Window>
 
 

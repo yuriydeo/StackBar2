@@ -44,7 +44,7 @@ namespace StackBarControlLib
         public double Scale
         {
             get { return (double)GetValue(ScaleProperty); }
-            private set { SetValue(ScaleProperty, value); }
+            set { SetValue(ScaleProperty, value); }
         }
         public bool IsPreviewMode
         {

@@ -29,15 +29,13 @@ namespace StackBarControlLib
         #endregion
 
         #region Fields
-        private ScrollViewer _barScroll;
-        private ScrollViewer _headerScroll;
         #endregion
 
         #region DependancyProperties
         public static DependencyProperty CellTemplateProperty = DependencyProperty.Register("CellTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
         public static DependencyProperty HeaderTemplateProperty = DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
-        public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(ControlTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
-        private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("Scale",typeof(double), typeof(StackBarControl), new PropertyMetadata());
+        public static DependencyProperty PreviewBarTemplateProperty = DependencyProperty.Register("PreviewBarTemplate", typeof(DataTemplate), typeof(StackBarControl), new PropertyMetadata(default(DataTemplate)));
+        private static readonly DependencyPropertyKey ScalePropertyKey = DependencyProperty.RegisterReadOnly("GlobalScale",typeof(double), typeof(StackBarControl), new PropertyMetadata(1.0));
         public static readonly DependencyProperty GlobalScaleProperty = ScalePropertyKey.DependencyProperty;
         public static DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(StackBarControl));
         #endregion
@@ -53,9 +51,9 @@ namespace StackBarControlLib
             get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
             set { SetValue(HeaderTemplateProperty, value); }
         }
-        public ControlTemplate PreviewBarTemplate
+        public DataTemplate PreviewBarTemplate
         {
-            get { return (ControlTemplate)GetValue(PreviewBarTemplateProperty); }
+            get { return (DataTemplate)GetValue(PreviewBarTemplateProperty); }
             set { SetValue(PreviewBarTemplateProperty, value); }
         }
         public double GlobalScale
@@ -71,19 +69,19 @@ namespace StackBarControlLib
         #endregion
 
         #region Methods
-        private void BindScrollViewers()
-        {
-            if (this.VisualChildrenCount < 1)
-                throw new Exception("StackBarControl didn't load properly");
+        //private void BindScrollViewers()
+        //{
+        //    if (this.VisualChildrenCount < 1)
+        //        throw new Exception("StackBarControl didn't load properly");
 
-            Border border = this.GetVisualChild(0) as Border;
-            _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
-            _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
+        //    Border border = this.GetVisualChild(0) as Border;
+        //    _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
+        //    _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
 
-            _headerScroll.ScrollChanged += OnScrollChanged;
-            _headerScroll.SizeChanged += OnHeaderSizeChanged;
-            _barScroll.ScrollChanged += OnScrollChanged;
-        }
+        //    _headerScroll.ScrollChanged += OnScrollChanged;
+        //    _headerScroll.SizeChanged += OnHeaderSizeChanged;
+        //    _barScroll.ScrollChanged += OnScrollChanged;
+        //}
         //private void SetScale()
         //{
         //    if (MinCellWidth <= 0 || IsPreviewMode)
@@ -109,6 +107,10 @@ namespace StackBarControlLib
             ObservableCollection<StackBarRowModel> rows = (ObservableCollection<StackBarRowModel>)ItemsSource;
 
             double maxValue = rows.Max(r => r.Cells.Sum(c => c.Value));
+            Border border = this.GetVisualChild(0) as Border;
+            ScrollViewer _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
+            //Grid _grid = border?.FindName("StackBarGrid") as Grid;
+            //double headerwidth = _grid.ColumnDefinitions[0].ActualWidth;
             double barWidth = _barScroll?.ViewportWidth ?? 0;
 
             //Sometimes StackBar happen to not fit by width a little. I suspect a rounding error
@@ -164,22 +166,22 @@ namespace StackBarControlLib
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            BindScrollViewers();
+            //BindScrollViewers();
             SetScaleByWidth();
         }
-        private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
+        //private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+        //{
+        //    _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
 
-            if (sender == _headerScroll)
-            {
-                _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
-            }
-            else
-            {
-                _headerScroll.ScrollToVerticalOffset(e.VerticalOffset);
-            }
-        }
+        //    if (sender == _headerScroll)
+        //    {
+        //        _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
+        //    }
+        //    else
+        //    {
+        //        _headerScroll.ScrollToVerticalOffset(e.VerticalOffset);
+        //    }
+        //}
 
         private void OnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
         {
