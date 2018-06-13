@@ -54,12 +54,19 @@
                                           HorizontalScrollBarVisibility="Disabled"
                                           Name="BarScrollViewer">
                             <Grid Name="StackBarGrid" Grid.IsSharedSizeScope="True">
-                                <!--<Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" SharedSizeGroup="StackBarHeaderSizeGroup" />
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>-->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Name="StackBarPlaceholderGrid" Grid.Row="0" Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="StackBarHeaderSizeGroup" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
                                 <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                              HorizontalContentAlignment="Left">
+                                         HorizontalContentAlignment="Left"
+                                         Grid.Row="1">
                                     <ListBox.Template>
                                         <ControlTemplate>
                                             <ItemsPresenter />

@@ -109,8 +109,9 @@ namespace StackBarControlLib
             double maxValue = rows.Max(r => r.Cells.Sum(c => c.Value));
             Border border = this.GetVisualChild(0) as Border;
             ScrollViewer _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
-            //Grid _grid = border?.FindName("StackBarGrid") as Grid;
-            //double headerwidth = _grid.ColumnDefinitions[0].ActualWidth;
+            Grid _grid = border?.FindName("StackBarGrid") as Grid;
+            Grid _grid2 = _grid.FindName("StackBarPlaceholderGrid") as Grid;
+            double headerWidth = _grid2.ColumnDefinitions[0].ActualWidth;
             double barWidth = _barScroll?.ViewportWidth ?? 0;
 
             //Sometimes StackBar happen to not fit by width a little. I suspect a rounding error
@@ -118,7 +119,7 @@ namespace StackBarControlLib
             //double cellsDensity = barWidth / rows.Sum(r => r.Cells.Count);
             //double multiplier = IsPreviewMode ? 1 : 1 - (0.05 / cellsDensity);
 
-            GlobalScale = barWidth / maxValue;
+            GlobalScale = (barWidth - headerWidth) / maxValue;
         }
         protected override Size MeasureOverride(Size constraint)
         {
