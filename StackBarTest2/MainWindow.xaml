@@ -129,6 +129,7 @@
                 </DataTemplate>
             </stackBarControlLib:StackBarRowItemControl.PreviewBarTemplate>
         </stackBarControlLib:StackBarRowItemControl>
+        
         <!--<stackBarControlLib:StackBarControl ItemsSource="{Binding FloorsCollection}"
                                             RowHeight="100">
 
