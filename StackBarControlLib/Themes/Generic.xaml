@@ -11,46 +11,8 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        
 
-                            <!--<DockPanel LastChildFill="True" VerticalAlignment="Stretch">-->
-                            <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled" 
-                                          VerticalScrollBarVisibility="Auto" 
-                                          Name="HeaderScrollViewer" 
-                                          DockPanel.Dock="Left"
-                                          VerticalAlignment="Top"
-                                          Height="{Binding ElementName=BarScrollViewer, Path=ViewportHeight}"
-                                          FlowDirection="RightToLeft">
-                                -->
-                            <!--FlowDirection is here to make vertical scrollbar attach to left side of scrollview -->
-                            <!--
-                                <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                         HorizontalContentAlignment="Stretch"
-                                         FlowDirection="LeftToRight">
-                                    <ItemsControl.ItemContainerStyle>
-                                        <Style TargetType="ContentPresenter">
-                                            <Setter Property="Focusable" Value="False"/>
-                                            <Setter Property="Margin" Value="0"/>
-                                            -->
-                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
-                            <!--
-                                        </Style>
-                                    </ItemsControl.ItemContainerStyle>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <ContentControl Content="{Binding}"
-                                                            ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}">
-                                            </ContentControl>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"></StackPanel>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </ScrollViewer>-->
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" 
                                           HorizontalScrollBarVisibility="Disabled"
                                           Name="BarScrollViewer">
                             <Grid Name="StackBarGrid" Grid.IsSharedSizeScope="True">
@@ -79,7 +41,6 @@
                                             <Setter Property="Margin" Value="0"/>
                                             <Setter Property="BorderThickness" Value="0" />
                                             <Setter Property="Padding" Value="0" />
-                                            <!--<Setter Property="Height" Value="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>-->
                                         </Style>
                                     </ListBox.ItemContainerStyle>
 
@@ -101,8 +62,7 @@
                                 </ListBox>
                             </Grid>
                         </ScrollViewer>
-                            <!--</DockPanel>-->
-                       
+
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -110,12 +70,6 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarRowItemControl}">
-        <!--<Style.Triggers>
-            <DataTrigger Binding="{Binding IsPreviewMode, RelativeSource={RelativeSource Self}}" Value="True">
-                <Setter Property="Template" Value ="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"/>
-            </DataTrigger>
-        </Style.Triggers>-->
-        <!--<EventSetter Event="MouseDoubleClick" Handler="StackBarRowDoubleClickHandler"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarRowItemControl}">
@@ -169,7 +123,7 @@
                                             <ContentControl.Width>
                                                 <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                                     <Binding Path="Value" ></Binding>
-                                                    <Binding Path="RowScale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
+                                                    <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
                                                 </MultiBinding>
                                             </ContentControl.Width>
                                         </ContentControl>
@@ -177,7 +131,7 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>

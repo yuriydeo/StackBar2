@@ -25,10 +25,10 @@ namespace StackBarControlLib
         {
             StackBarRowItemControl row = (StackBarRowItemControl)d;
             row.SetVisibility();
-            if ((bool)e.NewValue == false)
-            {
-                row.SetScaleByCellValue();
-            }
+            //if ((bool)e.NewValue == false)
+            //{
+            //    row.SetScaleByCellValue();
+            //}
         }
 
         public static DependencyProperty IsPreviewModeProperty = DependencyProperty.Register("IsPreviewMode", typeof(bool), typeof(StackBarRowItemControl), new PropertyMetadata(true, PreviewModeChangedCallback));
@@ -97,7 +97,7 @@ namespace StackBarControlLib
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            SetScaleByCellValue();
+            //SetScaleByCellValue();
             SetVisibility();
         }
 
@@ -115,15 +115,15 @@ namespace StackBarControlLib
             }
         }
 
-        private void SetScaleByCellValue()
-        {
-            if (ItemsSource == null)
-                return;
+        //private void SetScaleByCellValue()
+        //{
+        //    if (ItemsSource == null)
+        //        return;
 
-            ObservableCollection<StackBarCellModel> cells = (ObservableCollection<StackBarCellModel>)ItemsSource;
-            double minValue = cells.Min(c => c.Value);
+        //    ObservableCollection<StackBarCellModel> cells = (ObservableCollection<StackBarCellModel>)ItemsSource;
+        //    double minValue = cells.Min(c => c.Value);
 
-            RowScale = MinCellWidth / minValue;
-        }
+        //    RowScale = MinCellWidth / minValue;
+        //}
     }
 }

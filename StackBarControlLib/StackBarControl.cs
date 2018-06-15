@@ -75,29 +75,8 @@ namespace StackBarControlLib
         #endregion
 
         #region Methods
-        //private void BindScrollViewers()
-        //{
-        //    if (this.VisualChildrenCount < 1)
-        //        throw new Exception("StackBarControl didn't load properly");
-
-        //    Border border = this.GetVisualChild(0) as Border;
-        //    _headerScroll = border?.FindName("HeaderScrollViewer") as ScrollViewer;
-        //    _barScroll = border?.FindName("BarScrollViewer") as ScrollViewer;
-
-        //    _headerScroll.ScrollChanged += OnScrollChanged;
-        //    _headerScroll.SizeChanged += OnHeaderSizeChanged;
-        //    _barScroll.ScrollChanged += OnScrollChanged;
-        //}
-        //private void SetScale()
-        //{
-        //    if (MinCellWidth <= 0 || IsPreviewMode)
-        //        SetScaleByWidth();
-        //    else
-        //        SetScaleByCellValue();
-        //}
-
         /// <summary>
-        /// timer postphones scaling so resizing is already finished when it fires,
+        /// Timer postphones scaling so resizing is already finished when it fires,
         /// and also aggregates multiple calls from MeasureOverride/RenderSizeChanged into single call
         /// </summary>
         private void ResizeTimerFinished(object sender, EventArgs e)
@@ -122,16 +101,10 @@ namespace StackBarControlLib
             double headerWidth = _grid2.ColumnDefinitions[0].ActualWidth;
             double barWidth = _barScroll?.ViewportWidth ?? 0;
 
-            //Sometimes StackBar happen to not fit by width a little. I suspect a rounding error
-            //Nudging measure a little seems to fix the problem
-            //double cellsDensity = barWidth / rows.Sum(r => r.Cells.Count);
-            //double multiplier = IsPreviewMode ? 1 : 1 - (0.05 / cellsDensity);
-
             GlobalScale = (barWidth - headerWidth) / maxValue;
         }
         protected override Size MeasureOverride(Size constraint)
         {
-            //SetScaleByWidth();
             _resizeTimer.Stop();
             _resizeTimer.Start();
             return base.MeasureOverride(constraint);
@@ -156,8 +129,7 @@ namespace StackBarControlLib
             //    newCollection2.PropertyChanged += OnItemSourcePropertyChanged;
 
             base.OnItemsSourceChanged(oldValue, newValue);
-
-            //SetScaleByWidth();
+            
             _resizeTimer.Stop();
             _resizeTimer.Start();
         }
@@ -179,31 +151,9 @@ namespace StackBarControlLib
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            //BindScrollViewers();
-            //SetScaleByWidth();
             _resizeTimer.Stop();
             _resizeTimer.Start();
         }
-        //private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
-        //{
-        //    _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
-
-        //    if (sender == _headerScroll)
-        //    {
-        //        _barScroll.ScrollToVerticalOffset(e.VerticalOffset);
-        //    }
-        //    else
-        //    {
-        //        _headerScroll.ScrollToVerticalOffset(e.VerticalOffset);
-        //    }
-        //}
-
-        //private void OnHeaderSizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    //SetScaleByWidth();
-        //    _resizeTimer.Stop();
-        //    _resizeTimer.Start();
-        //}
         #endregion 
     }
 }

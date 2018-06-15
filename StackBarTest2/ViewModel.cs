@@ -25,7 +25,6 @@ namespace StackBarTest2
             }
             testFloor = new StackBarRowModel(_floors[0], new ObservableCollection<StackBarCellModel>(_floors[0].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
             testFloor2 = new StackBarRowModel(_floors[1], new ObservableCollection<StackBarCellModel>(_floors[1].Rooms.Select(i => new StackBarCellModel(i, f => ((Room)f).Area))));
-
         }
 
         private void PopulateData()
@@ -47,9 +46,6 @@ namespace StackBarTest2
             LegendDictionary.Add(UseType.Office.ToString(), Colors.Blue);
             LegendDictionary.Add(UseType.Residential.ToString(), Colors.Green);
             LegendDictionary.Add(UseType.Storage.ToString(), Colors.Purple);
-
-            
-
         }
 
         public Dictionary<string, Color> LegendDictionary { get; set; }
@@ -62,39 +58,4 @@ namespace StackBarTest2
 
         public ObservableCollection<StackBarRowModel> FloorsCollection { get; set; }
     }
-
-    //public class RoomCellModel : IStackBarCellModel
-    //{
-    //    public RoomCellModel(Room room)
-    //    {
-    //        DataObject = room;
-    //    }
-
-    //    public Room DataObject { get; }
-
-    //    public double Value => DataObject.Area;
-    //}
-
-    //public class FloorRowModel : StackBarRowModel
-    //{
-    //    public FloorRowModel(Floor floor)
-    //    {
-    //        DataObject = floor;
-    //    }
-
-    //    public Floor DataObject { get; }
-
-    //    public ObservableCollection<St> Cells
-    //    {
-    //        get
-    //        {
-    //            ObservableCollection<StackBarCellModel> rooms = new ObservableCollection<StackBarCellModel>();
-    //            foreach (Room room in DataObject.Rooms)
-    //            {
-    //                rooms.Add(new StackBarCellModel>(room, (Room r) => { return (Room)r.Area; }));
-    //            }
-    //            return new ObservableCollection<IStackBarCellModel>(rooms);
-    //        }
-    //    }
-    //}
 }

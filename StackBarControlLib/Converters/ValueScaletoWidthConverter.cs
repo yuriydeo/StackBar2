@@ -23,9 +23,6 @@ namespace StackBarControlLib.Converters
             var value = (double)values[0];
             var scale = (double)values[1];
             return value * scale;
-
-            //double result = value * scale;
-            //return Math.Floor(result*10)/10;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
