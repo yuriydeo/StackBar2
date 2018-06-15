@@ -27,7 +27,7 @@
                                     </Grid.ColumnDefinitions>
                                 </Grid>
                                 <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                         HorizontalContentAlignment="Left"
+                                         HorizontalContentAlignment="Stretch"
                                          Grid.Row="1">
                                     <ListBox.Template>
                                         <ControlTemplate>
@@ -50,7 +50,7 @@
                                                                           Scale ="{Binding GlobalScale, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" 
                                                                           HeaderTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                                                           CellTemplate="{Binding CellTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
-                                                                          PreviewBarTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}" />
+                                                                          PreviewBarTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
 
@@ -78,29 +78,32 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="StackBarHeaderSizeGroup" />
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"  />
                             </Grid.ColumnDefinitions>
-                            <ContentControl Grid.Column="0" 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ContentControl Grid.Row="0" 
                                             Content="{Binding}"
                                             VerticalAlignment="Stretch"
                                             ContentTemplate="{Binding HeaderTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                             </ContentControl>
-                            <ContentControl Grid.Column="1" 
+                            <ContentControl Grid.Row="1" 
                                             Content="{Binding}"
                                             ContentTemplate="{Binding PreviewBarTemplate, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}"
                                             Height="{Binding RowHeight, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                             HorizontalAlignment="Left"
                                             Visibility="{Binding PreviewVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
-                                <ContentControl.Width>
+                                <!--<ContentControl.Width>
                                     <MultiBinding Converter="{StaticResource valueScaletoWidthConverter}">
                                         <Binding Path="Value" ></Binding>
                                         <Binding Path="Scale" RelativeSource="{RelativeSource AncestorType=local:StackBarRowItemControl}"></Binding>
                                     </MultiBinding>
-                                </ContentControl.Width>
+                                </ContentControl.Width>-->
                             </ContentControl>
 
-                            <ListBox  Grid.Column="1" 
+                            <ListBox  Grid.Row="1" 
                                       ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}" 
                                       Visibility="{Binding DetailedVisibility, RelativeSource={RelativeSource AncestorType=local:StackBarRowItemControl}}">
                                 <ListBox.Template>

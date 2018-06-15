@@ -56,12 +56,12 @@
                         <Rectangle.Fill>
                             <SolidColorBrush Color="Aqua"></SolidColorBrush>
                         </Rectangle.Fill>
-                        <!--<Rectangle.Width>
+                        <Rectangle.Width>
                                 <MultiBinding Converter="{StaticResource valueScaleWidthConverter}">
                                     <Binding Path="DataObject.Area" ></Binding>
                                     <Binding Path="GlobalScale" RelativeSource="{RelativeSource AncestorType=stackBarControlLib:StackBarControl}"></Binding>
                                 </MultiBinding>
-                            </Rectangle.Width>-->
+                            </Rectangle.Width>
                     </Rectangle>
                 </Border>
             </DataTemplate>
