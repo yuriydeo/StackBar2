@@ -4,6 +4,7 @@
                     xmlns:local="clr-namespace:StackBarControlLib">
     <converters:ValueScaleToWidthConverter x:Key="valueScaletoWidthConverter" />
     
+    
     <Style TargetType="{x:Type local:StackBarControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -28,7 +29,8 @@
                                 </Grid>
                                 <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=local:StackBarControl}}"
                                          HorizontalContentAlignment="Stretch"
-                                         Grid.Row="1">
+                                         Grid.Row="1"
+                                         AlternationCount="2">
                                     <ListBox.Template>
                                         <ControlTemplate>
                                             <ItemsPresenter />
@@ -39,7 +41,7 @@
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Focusable" Value="False"/>
                                             <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="BorderThickness" Value="1" />
                                             <Setter Property="Padding" Value="0" />
                                         </Style>
                                     </ListBox.ItemContainerStyle>
@@ -70,12 +72,21 @@
     </Style>
 
     <Style TargetType="{x:Type local:StackBarRowItemControl}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="0">
+                <Setter Property="Background" Value="LightGray"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="1">
+                <Setter Property="Background" Value="DarkGray"/>
+            </DataTrigger>
+        </Style.Triggers>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StackBarRowItemControl}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"  />
